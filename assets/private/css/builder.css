@@ -6,10 +6,10 @@
 }
 
 .WPCC_group .title{
-    background: #0085c6;
+    background: #0079b8;
     font-size: 1.2em;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 8px 15px;
     color: white;
     position: relative;
 }
@@ -40,16 +40,12 @@
 }
 
 .WPCC_group .card {
-    /*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18);*/
-    padding: 10px 18px;
+    padding: 10px;
     text-align: left;
-    background-color: #f5f5f5;
-    margin: 10px;
-    /*-webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;*/
+    background-color: #f9f9f9;
+    margin: 5px;
     max-width: inherit;
-    border: solid 1px #e4e4e4;
+    border: solid 3px #eeeeee;
     position: relative;
 }
 
