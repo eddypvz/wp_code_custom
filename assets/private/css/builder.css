@@ -89,6 +89,24 @@
     padding-bottom: 10px;
 }
 
+.WPCC_group .link{
+    font-size: 14px;
+    margin: 5px 10px;
+    cursor: pointer;
+}
+.WPCC_group .link-default{
+    color: #0073aa;
+}
+.WPCC_group .link-default:hover{
+    color: #00405f;
+}
+.WPCC_group .link-danger{
+    color: #e70000;
+}
+.WPCC_group .link-danger:hover{
+    color: #850000;
+}
+
 .WPCC_group .form-control{
     margin: 3px 0 5px 0;
     width: 100%;
@@ -256,4 +274,25 @@
 
 .WPCC_Field_Checkbox .slider.round:before {
     border-radius: 50%;
+}
+
+/* Media field */
+.WPCC_Field_Media {
+    background: #f1f1f1;
+    background-image: url('../img/transparency.png');
+    background-repeat: repeat;
+    background-size: 100px;
+    text-align: center;
+    margin-bottom: 10px;
+    display: block;
+    border: solid 1px #ebebeb;
+}
+
+.WPCC_Field_Media img {
+    max-height: 120px;
+}
+
+.WPCC_Field_Media .btn-media {
+    padding: 5px;
+    background: #ffffff;
 }

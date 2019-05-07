@@ -49,6 +49,33 @@ const WPCC_builder = function() {
             });
         });
 
+        /* MEDIA FIELD */
+        $(".WPCC_Field_Media_Action").unbind("click").click(function() {
+
+            const action = $(this).attr("data-action");
+            const mediaContainer = $(this).parent().parent();
+            const img = mediaContainer.find("img");
+            const input = mediaContainer.find("input[type='hidden']");
+
+            //If is select action
+            if(action === "select") {
+                let urlAttach = wp.media.editor.send.attachment;
+
+                // Get wp.media.editor
+                wp.media.editor.send.attachment = function(props, attachment){
+                    img.attr("src", attachment.url);
+                    input.val(attachment.url);
+                    wp.media.editor.send.attachment = urlAttach;
+                };
+                wp.media.editor.open();
+            }
+            else{
+                //if is delete action
+                input.val("");
+                img.attr("src", img.attr("data-none"));
+            }
+        });
+
         //TINY MCE for field_text_editor
         $(".WPCC_Field_Editor").each( function(a, b) {
 

@@ -168,6 +168,45 @@ class WPCC_Builder {
         });
     }
 
+    public static function Add_Field_Media($slug, $label, Entity $entity, $args = []) {
+
+        $args["entity_parent"] = $entity;
+        $args["slug_parent"] = $entity->GetSlug();
+        $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+        $args["name"] = $slug;
+        $args["label"] = $label;
+        $args["placeholder"] = $args["placeholder"] ?? "";
+        $args["size"] = $args["size"] ?? 50;
+        $args["show_in_grid"] = $args["show_in_grid"] ?? false;
+        $args["description"] = $args["description"] ?? "";
+        $args["image_none"] = WP_CODE_CUSTOM_DIR."/assets/private/img/noimage.png" ?? "";
+
+        // Save definition
+        $entity->SetChildren($args);
+
+        add_action($args["slug"], function ($groupArgs) use ($args, $slug) {
+            // Value and repeater
+            $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
+            $repeater = $groupArgs["repeat_number"] ?? 0;
+            ?>
+            <div class="column">
+                <div class="form-group">
+                    <label><?= $args["label"] ?></label>
+                    <div class="WPCC_Field_Media">
+                        <img src="<?= (!empty($args["value"]))?$args["value"]:$args["image_none"] ?>" data-none="<?= $args["image_none"] ?>">
+                        <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>">
+                        <div class="btn-media">
+                            <a class="link link-default WPCC_Field_Media_Action" data-action="select">Seleccionar</a>
+                            <a class="link link-danger WPCC_Field_Media_Action" data-action="delete">Quitar</a>
+                        </div>
+                    </div>
+                    <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                </div>
+            </div>
+            <?php
+        });
+    }
+
     public static function Add_Field_Date($slug, $label, Entity $entity, $args = []) {
 
         $args["entity_parent"] = $entity;
