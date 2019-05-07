@@ -1,0 +1,86 @@
+.cy_admin_content{
+    padding: 15px;
+}
+
+.cy_admin_title{
+    font-size: 2em!important;
+    padding: 0!important;
+    margin: 0!important;
+}
+.cy_admin_subtitle{
+    color: #0085BA;
+}
+.cy_table{
+
+}
+.cy_table .table_header{
+    font-weight: bold;
+    font-size: 14px;
+    background: #f0f0f0;
+    padding: 10px 0;
+    margin: 0;
+}
+.cy_table .table_row{
+    font-size: 14px;
+    background: #ffffff;
+    padding: 10px 0;
+    border-bottom: solid 1px #eaeaea;
+    margin: 0;
+}
+.cy_clients_shopping_cart_delete_product{
+    margin: 0 5px;
+    color: red;
+}
+.cy_clients_shopping_cart_edit_product{
+    margin: 0 5px;
+    color: #0085BA;
+}
+.text-center{
+    text-align: center;
+}
+
+.temporal_field{
+    display: none;
+}
+
+.cy_label_green{
+    color: #005dba;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.cy_label_bg{
+    color: white;
+    padding: 3px 5px;
+    font-size: 14px;
+    font-weight: bold;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-transform: capitalize;
+}
+.cy_bg_red{
+    background: #ef0002;
+}
+.cy_bg_green{
+    color: white;
+    background: #64d645;
+}
+.cy_bg_blue{
+    color: white;
+    background: #0081ff;
+}
+.cy_bg_orange{
+    color: white;
+    background: #ff6e00;
+}
+.cy_bg_purple{
+    color: white;
+    background: #ff6e00;
+}
+
+.cy_image_auto_bg{
+    background: white;
+    text-align: center;
+    border: dashed 2px #b9b9b9;
+}
