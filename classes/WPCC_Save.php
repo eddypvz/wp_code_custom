@@ -1,5 +1,5 @@
 <?php
-use wp_code_custom\entity_create;
+use wp_code_custom\entity_get;
 
 class WPCC_Save {
 
@@ -19,7 +19,7 @@ class WPCC_Save {
             return $post_id;
         }
 
-        $wpcc = entity_create::instance();
+        $wpcc = entity_get::instance();
         $treeFields = $wpcc->getTree();
 
         //Each to post and validate fields

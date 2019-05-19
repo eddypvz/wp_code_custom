@@ -38,6 +38,16 @@ function WPCC_load_public_script($name) {
     wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."assets/public/js/{$name}");
 }
 
+function WPCC_message($from = "", $message = "", $boolDie = false) {
+	$strMsg = "WPCC -> {$from} Says: {$message}";
+    if ($boolDie) {
+		die($strMsg);
+    }
+    else {
+		print $strMsg;
+    }
+}
+
 /**
  * Check if Gutenberg is active.
  * Must be used not earlier than plugins_loaded action fired.

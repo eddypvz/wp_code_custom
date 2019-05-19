@@ -1,11 +1,61 @@
 <?php
 
 use wp_code_custom\entity;
-use wp_code_custom\entity_create;
+use wp_code_custom\entity_get;
 
 class WPCC_Builder {
 
+    public static function Add_Taxonomy($slug, $label, $structure = [], Entity $entity, $editable = true) {
+
+	    // Validation if the entity is an postype
+	    if ($entity->GetType() !== "postype") {
+		    WPCC_message("WPCC_Builder", "Trying to add '{$slug}' taxonomy to non post type identity.", true);
+	    }
+
+        $postype_slug = $entity->GetSlug();
+
+	    register_taxonomy(
+		    $slug, // Taxonomy slug
+		    $postype_slug, // Postype slug
+		    array(
+			    'label' => $label,
+			    'rewrite' => array('slug' => $slug),
+			    'hierarchical' =>  true,
+			    'public' =>  true,
+			    'has_archive' =>  true,
+			    'show_ui' =>  true,
+			    'show_in_menu' =>  $editable,
+			    'show_in_rest' =>  true,
+			    'capabilities' => array (
+				    'manage_terms' => 'manage_categories',
+				    'edit_terms' => 'manage_categories',
+				    'delete_terms' => 'manage_categories',
+				    'assign_terms' => 'edit_posts',
+			    )
+		    )
+	    );
+
+	    // Insert the structure
+	    foreach($structure as $keyTax => $itemTax) {
+		    if(is_integer($keyTax)){
+			    wp_insert_term($itemTax, $slug, [
+				    "slug"=>"tax_{$postype_slug}_{$itemTax}"
+			    ]);
+		    }
+		    else{
+			    wp_insert_term($itemTax, $slug, [
+				    "slug"=>$keyTax
+			    ]);
+		    }
+	    }
+    }
+
     public static function Add_Metabox($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an postype
+        if ($entity->GetType() !== "postype") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' metabox to non post type identity.", true);
+        }
 
         // Set the args for entity
         $args["entity_parent"] = $entity;
@@ -18,7 +68,7 @@ class WPCC_Builder {
         $args["description"] = $args["description"] ?? "";
         $args["value"] = $args["value"] ?? "";
 
-        $entityMetabox = entity_create::instance()->fromMetabox($args["slug"], $args);
+        $entityMetabox = entity_get::instance()->fromMetabox($args["slug"], $args);
 
         // Add metaboxes action
         add_action('add_meta_boxes', function () use ($args, $entityMetabox) {
@@ -53,7 +103,7 @@ class WPCC_Builder {
         $entity->SetChildren($args);
 
         // Entity for group
-        $entityGroup = entity_create::instance()->fromMetaboxGroup($args["slug"], $args);
+        $entityGroup = entity_get::instance()->fromMetaboxGroup($args["slug"], $args);
 
         // Action for group
         add_action($args["slug"], function ($post) use ($args, $entityGroup) {

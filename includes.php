@@ -23,6 +23,7 @@ require_once("classes/WPCC_Save.php");
 require_once("classes/WPCC_Repeater.php");
 
 // Load entity
+require_once("classes/entity_get.php");
 require_once("classes/entity_create.php");
 require_once("classes/entity.php");
 

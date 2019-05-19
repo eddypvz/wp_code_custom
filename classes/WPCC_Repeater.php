@@ -1,11 +1,11 @@
 <?php
-use wp_code_custom\entity_create;
+use wp_code_custom\entity_get;
 
 class WPCC_Repeater {
 
     public static function add($add_from, $type, $repeater_number = 0) {
 
-        $wpcc = entity_create::instance();
+        $wpcc = entity_get::instance();
         $treeFields = $wpcc->getTree();
 
         // If the field exists

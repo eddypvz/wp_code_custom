@@ -43,4 +43,8 @@ class Entity {
     public function GetArgs() {
         return $this->args;
     }
+
+    public function GetType() {
+    	return $this->type;
+    }
 }

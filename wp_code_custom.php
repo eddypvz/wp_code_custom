@@ -14,13 +14,18 @@ if(!defined( 'ABSPATH' ))exit;
 // Load includes
 require_once("includes.php");
 
+use wp_code_custom\entity_get;
 use wp_code_custom\entity_create;
 
 
 final class wp_code_custom {
 
-    public function CreateEntity() {
-        return entity_create::instance();
+	public function CreateEntity() {
+		return entity_create::instance();
+	}
+
+    public function GetEntity() {
+        return entity_get::instance();
     }
 
     public function DataRetriever() {
