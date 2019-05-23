@@ -56,6 +56,43 @@ class entity_create {
 	    return entity_get::instance()->fromPostype($slug);
     }
 
+    public function OptionPage($slug = "", $label = "", $args = []) {
+
+        // Defaults
+        $args["slug"] = $slug;
+        $args["label"] = $label;
+        $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
+
+        // Add to admin menu
+        add_action("admin_menu", function() use ($args) {
+
+            // Add menu page
+            add_menu_page($args["label"], $args["label"], "manage_options", $args["slug"], function() use ($args) {
+                ?>
+                <div class="wrap">
+                    <h2><?= $args["label"] ?></h2>
+                    <form method="post" action="options.php">
+                        <?php wp_nonce_field('update-options'); ?>
+                        <input type="hidden" name="action" value="update" />
+                        <?php
+                        // Draw the childrens
+                        $entityPage = entity_get::instance()->fromOptionsPage($args["slug"]);
+                        foreach ($entityPage->GetChildren() as $child) {
+                            do_action($child["slug"]);
+                        }
+                        ?>
+                        <p class="submit">
+                            <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+                        </p>
+                    </form>
+                <?php
+            }, $args["icon"], 99);
+        });
+
+        // Return entity
+        return entity_get::instance()->fromOptionsPage($slug);
+    }
+
     public function Taxonomy($slug = "", $label = "", $args = []) {
 
     }

@@ -66,6 +66,10 @@ class entity_get {
         return $this->getEntity($slug, 'postype', $args);
     }
 
+    public function fromOptionsPage($slug = "", $args = []) {
+        return $this->getEntity($slug, 'options_page', $args);
+    }
+
     public function fromMetabox($slug = "", $args = []) {
         return $this->getEntity($slug, 'metabox', $args);
     }
