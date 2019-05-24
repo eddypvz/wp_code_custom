@@ -306,10 +306,10 @@
     padding: 10px 20px;
 }
 
-.WPCC_Option_page h2{
-    margin: 0;
-}
-
 .WPCC_Option_page .buttonSave{
     margin: 20px;
+}
+
+.WPCC_Option_page_title {
+    font-size: 1.7em;
 }

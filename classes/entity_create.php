@@ -71,7 +71,7 @@ class entity_create {
                 wp_enqueue_media();
                 ?>
                 <div class="WPCC_Option_page">
-                    <h2><?= $args["label"] ?></h2>
+                    <h2 class="WPCC_Option_page_title"><?= $args["label"] ?></h2>
                     <form method="post" action="options.php">
                         <?php
                             // Register group settings
