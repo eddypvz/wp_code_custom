@@ -16,6 +16,7 @@ class entity_create {
 	    $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
 	    $args["disable_editor"] = $args["disable_editor"] ?? false;
 	    $args["disable_title"] = $args["disable_title"] ?? false;
+	    $args["disable_thumbnail"] = $args["disable_thumbnail"] ?? false;
 
 	    //Build the custom postypes
 	    register_post_type( $slug,
@@ -50,6 +51,12 @@ class entity_create {
 	    if ($args["disable_title"]) {
 		    remove_post_type_support($slug, 'title');
 	    }
+
+        // Disable thumbnail support
+        if(!$args["disable_thumbnail"]){
+            add_post_type_support($slug, 'thumbnail');
+        }
+
 	    // Return entity
 	    return entity_get::instance()->fromPostype($slug);
     }
