@@ -61,6 +61,7 @@ class entity_create {
         $args["label"] = $label;
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
         $args["menu_order"] = $args["menu_order"] ?? 5;
+        $args["enable_button_save"] = $args["enable_button_save"] ?? true;
 
         // create custom plugin settings menu
         add_action('admin_menu', function() use ($args) {
@@ -80,10 +81,14 @@ class entity_create {
                             foreach (entity_get::instance()->fromOptionsPage($args["slug"])->GetChildren() as $child) {
                                 do_action($child["slug"]);
                             }
+                            if ($args["enable_button_save"]) {
+                                ?>
+                                <div class="buttonSave">
+                                    <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+                                </div>
+                                <?php
+                            }
                         ?>
-                        <div class="buttonSave">
-                            <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-                        </div>
                     </form>
                 </div>
                 <?php
