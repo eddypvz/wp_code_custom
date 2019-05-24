@@ -6,9 +6,10 @@
 }
 
 .WPCC_group .title{
-    background: #0079b8;
-    font-size: 1.3em;
-    font-weight: bold;
+    /*background: #0079b8;*/
+    background: #00669f;
+    font-size: 1.2em;
+    /*font-weight: bold;*/
     padding: 8px 15px;
     color: white;
     position: relative;
@@ -295,4 +296,20 @@
 .WPCC_Field_Media .btn-media {
     padding: 5px;
     background: #ffffff;
+}
+
+/* OPTIONS PAGES */
+.WPCC_Option_page {
+    /*max-width: 1000px;*/
+    background: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+.WPCC_Option_page h2{
+    margin: 0;
+}
+
+.WPCC_Option_page .buttonSave{
+    margin: 20px;
 }

@@ -132,31 +132,56 @@ class WPCC_Builder {
             $groupArgs["card_values"] = [];
 
             // Default values for group
-            $groupValues = [];
-            $groupValues[] = false;
+            $groups = [];
+            $groups[0] = false;
+            $groupData = [];
 
-            // Get the meta for fields that are not repeatable
-            if ($args["repeatable"] === true) {
-                // If the group are repeatable, get only by slug of group
-                if ($postMeta = get_post_meta($groupArgs["post_id"], $args["slug"], true)) {
-                    $groupValues = $postMeta;
-                };
-            }
-            else {
-                $postMeta = get_post_meta($groupArgs["post_id"]);
+            // If is not repeater, get the values
+            if (!$post->repeat_number || is_null($post->repeat_number)) {
+
+                // If is an option page
+                if ($args["entity_parent"]->GetType() === "options_page") {
+                    if ($args["repeatable"] === true) {
+                        if ($groupData = get_option($entityGroup->GetSlug())) {
+                            $groups = $groupData;
+                        };
+                    }
+                    else {
+                        if ($groupData = get_option($entityGroup->GetSlug())) {
+                            $groupData = $groupData[0];
+                        };
+                    }
+                }
+                else {
+                    // Get the meta for fields that are not repeatable
+                    if ($args["repeatable"] === true) {
+                        // If the group are repeatable, get only by slug of group
+                        if ($groupData = get_post_meta($groupArgs["post_id"], $args["slug"], true)) {
+                            $groups = $groupData;
+                        };
+                    }
+                    else {
+                        $groupData = get_post_meta($groupArgs["post_id"]);
+                    }
+                }
             }
 
             // Each to groups
-            foreach ($groupValues as $countRepeater => $cardValue) {
+            foreach ($groups as $countRepeater => $cardValue) {
 
                 // Use the repeat number
                 $groupArgs["repeat_number"] = $post->repeat_number ?? $countRepeater ?? 0;
 
                 // If the field not are repeatable, process the metafields
                 if (!$args["repeatable"]) {
-                    if (is_array($postMeta)) {
-                        foreach ($postMeta as $postMetaKey => $postMetaValue) {
-                            $groupArgs["card_values"][$postMetaKey] = $postMetaValue[0] ?? "";
+                    if (is_array($groupData)) {
+                        foreach ($groupData as $fieldKey => $dataValue) {
+                            if ($args["entity_parent"]->GetType() === "options_page") {
+                                $groupArgs["card_values"][$fieldKey] = $dataValue ?? "";
+                            }
+                            else{
+                                $groupArgs["card_values"][$fieldKey] = $dataValue[0] ?? "";
+                            }
                         }
                     }
                 }
@@ -425,8 +450,11 @@ class WPCC_Builder {
                 <label><?= $args["label"] ?></label>
                 <div class="WPCC_Field_Editor" data-slug="<?= $newSlug ?>">
                     <?php
-                    // If gutenberg is active, print the wp_editor
-                    if ( WPCC_gutenberg_active() ) {
+                    // Get current screen
+                    $screen = get_current_screen();
+
+                    // If gutenberg is active and is only in post edit window, use the wp_editor
+                    if ( WPCC_gutenberg_active() && ($screen->parent_base == 'edit') ) {
 
                         wp_editor($args["value"], $newSlug, [
                             'wpautop' => false,
@@ -438,8 +466,9 @@ class WPCC_Builder {
                         ]);
                     }
                     else {
+                        // Use the js API wp.editor
                         ?>
-                        <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $args["name"] ?>][]"><?= $args["value"] ?></textarea>
+                        <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]"><?= $args["value"] ?></textarea>
                         <?php
                     }
                     ?>
@@ -447,6 +476,23 @@ class WPCC_Builder {
                 <small class="field_description"><?= $args["description"] ?></small>
             </div>
             <?php
+        });
+    }
+
+    public static function Add_HTML(Entity $entity, $callback) {
+
+        $args["entity_parent"] = $entity;
+        $args["slug_parent"] = $entity->GetSlug();
+        $args["slug"] = "custom_html_".uniqid();
+        $args["name"] = $args["slug"];
+
+        // Save definition
+        $entity->SetChildren($args);
+
+        add_action($args["slug"], function () use ($callback) {
+            if(is_callable($callback)){
+                call_user_func($callback);
+            }
         });
     }
 }

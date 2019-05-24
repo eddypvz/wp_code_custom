@@ -5,9 +5,7 @@ use wp_code_custom\entity_get;
 
 class entity_create {
 
-    private function __construct() {
-
-    }
+    private function __construct() {}
 
     public function Postype($slug = "", $label = "", $args = []) {
 
@@ -63,30 +61,39 @@ class entity_create {
         $args["label"] = $label;
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
 
-        // Add to admin menu
-        add_action("admin_menu", function() use ($args) {
-
-            // Add menu page
-            add_menu_page($args["label"], $args["label"], "manage_options", $args["slug"], function() use ($args) {
+        // create custom plugin settings menu
+        add_action('admin_menu', function() use ($args) {
+            //create new top-level menu
+            add_menu_page($args["label"], $args["label"], 'manage_options', __FILE__, function() use ($args) {
+                // Include media
+                wp_enqueue_media();
                 ?>
-                <div class="wrap">
+                <div class="WPCC_Option_page">
                     <h2><?= $args["label"] ?></h2>
                     <form method="post" action="options.php">
-                        <?php wp_nonce_field('update-options'); ?>
-                        <input type="hidden" name="action" value="update" />
                         <?php
-                        // Draw the childrens
-                        $entityPage = entity_get::instance()->fromOptionsPage($args["slug"]);
-                        foreach ($entityPage->GetChildren() as $child) {
-                            do_action($child["slug"]);
-                        }
+                            // Register group settings
+                            settings_fields( "WPCC_CP_{$args["slug"]}" );
+
+                            // Draw the childrens
+                            foreach (entity_get::instance()->fromOptionsPage($args["slug"])->GetChildren() as $child) {
+                                do_action($child["slug"]);
+                            }
                         ?>
-                        <p class="submit">
+                        <div class="buttonSave">
                             <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-                        </p>
+                        </div>
                     </form>
+                </div>
                 <?php
-            }, $args["icon"], 99);
+            }, $args["icon"]);
+
+            // Register the options childrens
+            add_action( 'admin_init', function() use ($args) {
+                foreach (entity_get::instance()->fromOptionsPage($args["slug"])->GetChildren() as $child) {
+                    register_setting( "WPCC_CP_{$args["slug"]}", $child["slug"] );
+                }
+            });
         });
 
         // Return entity

@@ -1,6 +1,7 @@
 const WPCC_builder = function() {
 
     const self = this;
+    const $ = jQuery;
 
     this.refreshEvents = function() {
 
@@ -80,15 +81,18 @@ const WPCC_builder = function() {
         $(".WPCC_Field_Editor").each( function(a, b) {
 
             const slug = $(b).attr("data-slug");
+            const is_editor = $(b).attr("data-editor");
 
-            if(typeof wp.editor.initialize !== "undefined") {
+            // If the wp.editor library exists and the editor is not instanced
+            if(typeof wp.editor.initialize !== "undefined" && parseInt(is_editor) !== 1) {
                 wp.editor.initialize(slug, {
                     mediaButtons: true,
                     tinymce: true,
                     quicktags: true,
                 });
+                $(b).attr("data-editor", 1);
             }
-            else{
+            else {
                 if(typeof  tinyMCEPreInit.mceInit.content != "undefined") {
                     tinymce.init(tinyMCEPreInit.mceInit.content);
                 }
@@ -101,7 +105,7 @@ const WPCC_builder = function() {
     }
 };
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
     const wpcc = new WPCC_builder();
     wpcc.refreshEvents();
 });
