@@ -60,6 +60,7 @@ class entity_create {
         $args["slug"] = $slug;
         $args["label"] = $label;
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
+        $args["menu_order"] = $args["menu_order"] ?? 5;
 
         // create custom plugin settings menu
         add_action('admin_menu', function() use ($args) {
@@ -86,7 +87,7 @@ class entity_create {
                     </form>
                 </div>
                 <?php
-            }, $args["icon"]);
+            }, $args["icon"], $args["menu_order"]);
 
             // Register the options childrens
             add_action( 'admin_init', function() use ($args) {
