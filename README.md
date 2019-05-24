@@ -60,6 +60,54 @@ You can create an instance calling a static method `Instance()` of the class `wp
 $wpcc = wp_code_custom::Instance();
 ```
 
+### Entities
+An "Entity" is the representation of the wordpress "objects or concepts" like metaboxes, postypes or options pages.
+The entities can been created by the method `CreateEntity` or can been getted by `GetEntity` method.
+
+
+### Methods of `wp_code_custom`
+
+#### `CreateEntity`
+The `CreateEntity` method return an object that define the entity to be create.
+
+```php
+$entityObject = $cdc->CreateEntity()->Postype("post");
+```
+
+#### `GetEntity`
+The `GetEntity` method return an object .
+
+
+### Methods of `CreateEntity`
+
+#### `Postype`
+The `Postype` this method create a new **_custom postype_**. This method return an `Entity` object.
+
+- `slug` _(String)_: Slug name for postype. This has been unique.
+- `label` _(String)_: Label for display.
+- `args` _(Array)_: This param contents multiple arguments.
+    - `public` _(Bool)_: Set the postype public.
+    - `show_in_menu` _(Bool)_: Show the postype in menu. 
+    - `menu_order` _(Int)_: Position for menu. 
+    - `icon` _(String)_: Dashicon icon name. 
+    - `disable_editor` _(Bool)_: Disable the main wp_editor in the postype.
+    - `disable_title` _(Bool)_: Disable the title in the postype.
+
+#### `OptionPage`
+The `OptionPage` this method create a new **_options page_**. This method return an `Entity` object.
+
+- `slug` _(String)_: Slug name for postype. This has been unique.
+- `label` _(String)_: Label for display.
+- `args` _(Array)_: This param contents multiple arguments.
+    - `icon` _(String)_: Dashicon icon name.
+
+#### `Taxonomy`
+The `Taxonomy` this method create a new **_taxonomy_**. The method receive the parameters: This method return an `Entity` object.
+
+
+
+
+
 ## License
 
 [The MIT License](http://piecioshka.mit-license.org) @ 2017
