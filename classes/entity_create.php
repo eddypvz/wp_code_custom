@@ -113,10 +113,6 @@ class entity_create {
         return entity_get::instance()->fromOptionsPage($slug);
     }
 
-    public function Taxonomy($slug = "", $label = "", $args = []) {
-
-    }
-
     //singleton instance
     public static function instance() {
         static $instance = null;

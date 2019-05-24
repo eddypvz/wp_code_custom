@@ -101,10 +101,6 @@ The `OptionPage` this method create a new **_options page_**. This method return
 - `args` _(Array)_: This param contents multiple arguments.
     - `icon` _(String)_: Dashicon icon name.
 
-#### `Taxonomy`
-The `Taxonomy` this method create a new **_taxonomy_**. The method receive the parameters: This method return an `Entity` object.
-
-
 
 
 
