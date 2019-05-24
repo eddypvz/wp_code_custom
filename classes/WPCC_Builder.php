@@ -237,6 +237,7 @@ class WPCC_Builder {
                     <label><?= $args["label"] ?></label>
                     <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
             </div>
             <?php
@@ -276,6 +277,7 @@ class WPCC_Builder {
                         </div>
                     </div>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
             </div>
             <?php
@@ -307,6 +309,7 @@ class WPCC_Builder {
                     <label><?= $args["label"] ?></label>
                     <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="date" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
             </div>
             <?php
@@ -338,6 +341,7 @@ class WPCC_Builder {
                     <label><?= $args["label"] ?></label>
                     <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="number" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
             </div>
             <?php
@@ -378,6 +382,7 @@ class WPCC_Builder {
                         ?>
                     </select>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
             </div>
             <?php
@@ -417,6 +422,7 @@ class WPCC_Builder {
                         <span class="slider round"></span>
                     </label>
                 </div>
+                <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
             </div>
             <?php
         });
@@ -474,6 +480,7 @@ class WPCC_Builder {
                     ?>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
+                <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
             </div>
             <?php
         });

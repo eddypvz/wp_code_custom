@@ -32,6 +32,10 @@ final class wp_code_custom {
 
     }
 
+    public function EnableDebug() {
+	    define("WPCC_DEBUG_MODE", true);
+    }
+
     //singleton instance
     public static function Instance() {
         static $instance = null;

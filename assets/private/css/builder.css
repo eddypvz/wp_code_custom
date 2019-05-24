@@ -190,6 +190,11 @@
     margin: 5px 0;
 }
 
+.WPCC_Debug_Msg{
+    color: red;
+    font-size: 10px;
+}
+
 .WPCC_Field_Editor textarea {
     width: 100%;
     margin: -1px 0;

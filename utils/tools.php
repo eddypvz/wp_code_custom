@@ -82,3 +82,26 @@ function WPCC_gutenberg_active() {
 
     return $use_block_editor;
 }
+
+function WPCC_Debug_Field($arrDebug = []) {
+    if (defined("WPCC_DEBUG_MODE")) {
+        ?>
+        <div class="WPCC_Debug_Msg">
+            <?php
+            foreach ($arrDebug as $key => $item) {
+                ?>
+                <div>
+                    <?php
+                    if(!is_int($key)) {
+                        print "{$key}: ";
+                    }
+                    print "{$item}";
+                    ?>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+        <?php
+    }
+}
