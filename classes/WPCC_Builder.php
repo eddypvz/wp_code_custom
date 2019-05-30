@@ -208,7 +208,7 @@ class WPCC_Builder {
             $groupData = [];
 
             // If is not repeater draw by ajax, get the values
-            if (!$post->repeat_number || is_null($post->repeat_number)) {
+            if (is_object($post) && (!$post->repeat_number || is_null($post->repeat_number))) {
 
                 // If is an option page
                 if ($args["entity_parent"]->GetType() === "options_page") {
