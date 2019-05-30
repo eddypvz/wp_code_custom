@@ -10,7 +10,7 @@ class entity_create {
     public function Postype($slug = "", $label = "", $args = []) {
 
     	// Default params
-	    $args["public"] = $args["public"] ?? false;
+	    $args["public"] = $args["public"] ?? true;
 	    $args["show_in_menu"] = $args["show_in_menu"] ?? true;
 	    $args["menu_order"] = $args["menu_order"] ?? 5;
 	    $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
