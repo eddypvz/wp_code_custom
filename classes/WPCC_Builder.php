@@ -5,12 +5,21 @@ use wp_code_custom\entity_get;
 
 class WPCC_Builder {
 
-    public static function Add_Taxonomy($slug, $label, $structure = [], Entity $entity, $editable = true) {
+    public static function Add_Taxonomy($slug, $label, $items = [], Entity $entity, $editable = true) {
+
+        // Set the args for entity
+        $args["slug"] = $slug;
+        $args["label"] = $label;
+        $args["entity_parent"] = $entity;
+        $args["repeatable"] = $args["repeatable"] ?? false;
 
 	    // Validation if the entity is an postype
 	    if ($entity->GetType() !== "postype") {
 		    WPCC_message("WPCC_Builder", "Trying to add '{$slug}' taxonomy to non post type identity.", true);
 	    }
+
+	    // Get entity
+        $entityTaxonomy = entity_get::instance()->fromTaxonomy($args["slug"], $args);
 
         $postype_slug = $entity->GetSlug();
 
@@ -36,7 +45,7 @@ class WPCC_Builder {
 	    );
 
 	    // Insert the structure
-	    foreach($structure as $keyTax => $itemTax) {
+	    foreach($items as $keyTax => $itemTax) {
 		    if(is_integer($keyTax)){
 			    wp_insert_term($itemTax, $slug, [
 				    "slug"=>"tax_{$postype_slug}_{$itemTax}"
@@ -48,6 +57,67 @@ class WPCC_Builder {
 			    ]);
 		    }
 	    }
+
+        // On draw and edit fields for taxonomy
+	    $draw_childs = function($term) use ($entityTaxonomy, $args) {
+            // Include media
+            wp_enqueue_media();
+            // Create nonce
+            wp_nonce_field( "{$args["slug"]}_termmeta", "{$args["slug"]}_termmeta_nonce" );
+            // Draw cards for groups
+            foreach ($entityTaxonomy->GetChildren() as $child) {
+                do_action($child["slug"], $term);
+            }
+        };
+	    add_action( "{$args["slug"]}_add_form_fields", $draw_childs);
+	    add_action( "{$args["slug"]}_edit_form_fields", $draw_childs);
+
+	    // Save terms
+        $saveTerm = function( $term_id ) use ($args) {
+
+            // Comprobamos si se ha definido el nonce.
+            $nonce = $_POST["{$args["slug"]}_termmeta_nonce"] ?? "";
+            if($nonce === "") return $term_id;
+
+            // Verificamos que el nonce es válido.
+            if ( !wp_verify_nonce( $nonce, "{$args["slug"]}_termmeta" ) ) {
+                return $term_id;
+            }
+
+            // Get tree fields
+            $wpcc = entity_get::instance();
+            $treeFields = $wpcc->getTree();
+
+            //Each to post and validate fields
+            foreach ($_POST as $key => $value) {
+
+                // If the field exists in register for wpcc
+                if (array_key_exists($key, $treeFields)) {
+
+                    // If is not a repeatable field
+                    if (!$treeFields[$key]["repeatable"]) {
+
+                        // Get only first
+                        if (!empty($value[0])) {
+                            foreach ($value[0] as $fieldKey => $fieldValue) {
+                                $fieldSlug = "{$key}_{$fieldKey}";
+                                // Process data to field
+                                $old_value = get_term_meta( $term_id, $fieldSlug, true);
+                                update_term_meta( $term_id, $fieldSlug, $fieldValue, $old_value );
+                            }
+                        }
+                    }
+                    else {
+                        $old_value = get_term_meta( $term_id, $key, true);
+                        update_term_meta( $term_id, $key, $value, $old_value );
+                    }
+                }
+            }
+        };
+        add_action( "edited_{$args["slug"]}", $saveTerm );
+        add_action( "create_{$args["slug"]}", $saveTerm );
+
+	    return $entityTaxonomy;
     }
 
     public static function Add_Metabox($slug, $label, Entity $entity, $args = []) {
@@ -129,6 +199,7 @@ class WPCC_Builder {
 
             $groupArgs = [];
             $groupArgs["post_id"] = $post->ID ?? 0;
+            $groupArgs["term_id"] = $post->term_id ?? 0;
             $groupArgs["card_values"] = [];
 
             // Default values for group
@@ -136,7 +207,7 @@ class WPCC_Builder {
             $groups[0] = false;
             $groupData = [];
 
-            // If is not repeater, get the values
+            // If is not repeater draw by ajax, get the values
             if (!$post->repeat_number || is_null($post->repeat_number)) {
 
                 // If is an option page
@@ -152,6 +223,18 @@ class WPCC_Builder {
                         };
                     }
                 }
+                // If the entity parent is an taxonomy
+                else if ($args["entity_parent"]->GetType() === "taxonomy") {
+                    if ($args["repeatable"] === true) {
+                        if ($groupData = get_term_meta( $groupArgs["term_id"], $entityGroup->GetSlug(), true)) {
+                            $groups = $groupData;
+                        };
+                    }
+                    else {
+                        $groupData = get_term_meta( $groupArgs["term_id"] );
+                    }
+                }
+                // If the entity parent is a post
                 else {
                     // Get the meta for fields that are not repeatable
                     if ($args["repeatable"] === true) {
@@ -214,6 +297,11 @@ class WPCC_Builder {
 
     public static function Add_Field_Text($slug, $label, Entity $entity, $args = []) {
 
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
@@ -245,6 +333,11 @@ class WPCC_Builder {
     }
 
     public static function Add_Field_Media($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
 
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
@@ -286,6 +379,11 @@ class WPCC_Builder {
 
     public static function Add_Field_Date($slug, $label, Entity $entity, $args = []) {
 
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
@@ -318,6 +416,11 @@ class WPCC_Builder {
 
     public static function Add_Field_Number($slug, $label, Entity $entity, $args = []) {
 
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
@@ -349,6 +452,11 @@ class WPCC_Builder {
     }
 
     public static function Add_Field_Select($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
 
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
@@ -391,6 +499,11 @@ class WPCC_Builder {
 
     public static function Add_Field_Checkbox($slug, $label, Entity $entity, $args = []) {
 
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
@@ -429,6 +542,11 @@ class WPCC_Builder {
     }
 
     public static function Add_Field_Editor($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
 
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();

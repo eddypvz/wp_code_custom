@@ -78,6 +78,10 @@ class entity_get {
         return $this->getEntity($slug, 'group', $args);
     }
 
+    public function fromTaxonomy($slug = "", $args = []) {
+        return $this->getEntity($slug, 'taxonomy', $args);
+    }
+
     public function fromTerm($slug = "", $args = []) {
         return $this->getEntity($slug, 'term', $args);
     }

@@ -15,6 +15,11 @@
     position: relative;
 }
 
+.WPCC_group_content {
+    padding: 5px;
+    background: white;
+}
+
 .WPCC_group_content .column {
     float: none;
     width: 100%;
@@ -28,10 +33,6 @@
 .WPCC_group_content .column3 {
     float: left;
     width: 33.33%;
-}
-
-.WPCC_group_content {
-    padding: 5px;
 }
 
 .WPCC_group_content:after {

@@ -19,6 +19,7 @@ class WPCC_Save {
             return $post_id;
         }
 
+        // Get instance of entities
         $wpcc = entity_get::instance();
         $treeFields = $wpcc->getTree();
 
