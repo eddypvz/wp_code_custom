@@ -17,7 +17,7 @@ class entity_create {
 	    $args["disable_editor"] = $args["disable_editor"] ?? false;
 	    $args["disable_title"] = $args["disable_title"] ?? false;
 	    $args["disable_thumbnail"] = $args["disable_thumbnail"] ?? false;
-	    $args["taxonomies"] = $args["taxonomies"] ?? [];
+	    $args["enable_categories"] = $args["enable_categories"] ?? false;
 
 	    //Build the custom postypes
 	    register_post_type( $slug,
@@ -42,9 +42,13 @@ class entity_create {
 			    'publicly_queryable' => true,
 			    'capability_type' => 'post',
 			    'menu_icon' => $args["icon"],
-                'taxonomies' => $args["taxonomies"],
 		    )
 	    );
+
+	    if ($args["enable_categories"]) {
+            register_taxonomy_for_object_type('category', $slug);
+        }
+
 	    // Disable editor
 	    if ($args["disable_editor"]) {
 		    remove_post_type_support($slug, 'editor');
