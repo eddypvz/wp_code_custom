@@ -73,7 +73,7 @@ class entity_create {
         // create custom plugin settings menu
         add_action('admin_menu', function() use ($args) {
             //create new top-level menu
-            add_menu_page($args["label"], $args["label"], 'manage_options', __FILE__, function() use ($args) {
+            add_menu_page($args["label"], $args["label"], 'manage_options', "option_page_{$args["slug"]}", function() use ($args) {
                 // Include media
                 wp_enqueue_media();
                 ?>
