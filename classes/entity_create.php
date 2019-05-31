@@ -45,8 +45,11 @@ class entity_create {
 		    )
 	    );
 
+	    // Enable categories
 	    if ($args["enable_categories"]) {
-            register_taxonomy_for_object_type('category', $slug);
+            add_action('init', function() use ($slug) {
+                register_taxonomy_for_object_type('category', $slug);
+            });
         }
 
 	    // Disable editor
