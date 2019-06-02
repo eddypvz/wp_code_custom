@@ -311,6 +311,7 @@ class WPCC_Builder {
         $args["size"] = $args["size"] ?? 50;
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
+        $args["locked"] = $args["locked"] ?? "";
 
         // Save definition
         $entity->SetChildren($args);
@@ -323,7 +324,7 @@ class WPCC_Builder {
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
-                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
+                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>" <?= print ($args["locked"])?"disabled='disabled'":"" ?> />
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
@@ -362,8 +363,8 @@ class WPCC_Builder {
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
                     <div class="WPCC_Field_Media">
-                        <img src="<?= (!empty($args["value"]))?$args["value"]:$args["image_none"] ?>" data-none="<?= $args["image_none"] ?>">
-                        <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>">
+                        <img src="<?= (!empty($args["value"]))?$args["value"]:$args["image_none"] ?>" data-none="<?= $args["image_none"] ?>"/>
+                        <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>"/>
                         <div class="btn-media">
                             <a class="link link-default WPCC_Field_Media_Action" data-action="select">Seleccionar</a>
                             <a class="link link-danger WPCC_Field_Media_Action" data-action="delete">Quitar</a>
@@ -405,7 +406,7 @@ class WPCC_Builder {
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
-                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="date" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
+                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="date" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>"/>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
@@ -442,7 +443,7 @@ class WPCC_Builder {
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
-                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="number" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>">
+                    <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="number" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>"/>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
@@ -531,7 +532,7 @@ class WPCC_Builder {
                     <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="0"/>
 
                     <label class="switch">
-                        <input type="checkbox" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" <?= $checked ?> value="1">
+                        <input type="checkbox" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" <?= $checked ?> value="1"/>
                         <span class="slider round"></span>
                     </label>
                 </div>
