@@ -1,7 +1,4 @@
 <?php
-// Sessions
-if(!session_id())session_start();
-
 // Define the plugin path
 define( 'WP_CODE_CUSTOM_DIR', plugin_dir_url(__FILE__));
 define( 'WP_CODE_CUSTOM_PATH', plugin_dir_path(__FILE__));
