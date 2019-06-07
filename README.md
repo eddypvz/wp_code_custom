@@ -102,6 +102,66 @@ The `OptionPage` this method create a new **_options page_**. This method return
     - `icon` _(String)_: Dashicon icon name.
 
 
+## Class `WPCC_DataRetriever` 
+The `WPCC_DataRetriever` class provide an API to get data from a Wordpress entities. This is an static class.
+
+### Method `posts`
+This method get data from any postype.
+
+**Params:**
+
+- `$slug` _(String)_: Slug name for postype. This has been unique.
+- `$rows` _(Int)_: Number of rows for retrive, 0 is unlimited.
+- `$args` _(Array)_: This param contents multiple arguments.
+    - `unique_display` _(Bool)_: Default `true`. This disable the unique display that show an associative array when the query only retrive one row.
+    - `include` _(Array)_: Determine data for retrive per post.
+        - `fields`
+        - `permalink`
+        - `thumbnail`
+    - `include_taxonomies` _(Array)_: Determines the taxonomies data for retrieve per post.
+        - `category`
+        - *any custom taxonomy slug for postype*
+    - `filters` _(Array)_: This params configure the filters for query. The structure for filters is the same for filter from taxonomies and filter for custom fields.
+        ##### Filter by taxonomy  
+        ```php
+          // Filter by taxonomy
+          $args["filter"] = [
+              ["taxonomy", "slug_taxonomy", "=", ["slug term to find", "slug term 2 to find", ...]]
+          ];
+        ```
+        >> Compare operator "=" uses the WP_Query/tax_query param.
+        ##### Filter by fields
+        For filter by fields, we need append the slug of the group parent for field next to underscore and the field slug. 
+        The slug structure is: **metabox_slug / group_slug / field_slug**
+        ```php
+          // Filter by fields
+          $args["filter"] = [
+              ["field", "metabox_slug/group_slug/field_slug", "=", "value to find"], // Filter single value
+              ["field", "metabox_slug/group_slug/field_slug", "=", ["value to find", "value 2 to find"], // Filter many values
+          ];
+        ```
+        
+        ##### See taxonomy and fields filters together
+        For filter by fields, we need append the slug of the group parent for field next to underscore and the field slug. 
+        The slug structure is: **metabox_slug / group_slug / field_slug**
+        ```php
+          // Filter by fields
+          $query = [
+                      "filters" => [
+                          ["taxonomy", "category", "=", "category_slug_term"],
+                          ["taxonomy", "custom_taxonomy_slug", "=", ["term_value_1", "term_value_2"]],
+                          ["field", "general/group_one/field_text_one", "=", "value to find"],
+                          ["field", "general/group_one/field_text_two", "=", ["value to find", "value 2 to find"]],
+                      ],
+                   ];
+        ```
+        
+        ##### The comparition operator: 
+        For filter fields, you can send in the third position the "compare" parameter used by wordpress in
+        [WP_Query](https://codex.wordpress.org/Class_Reference/WP_Query) class.
+        
+        
+ 
 
 
 ## License

@@ -165,6 +165,7 @@ class WPCC_Builder {
 
         // Set the args for entity
         $args["slug"] = "{$entity->GetSlug()}_{$slug}";
+        $args["name"] = $slug;
         $args["label"] = $label;
         $args["entity_parent"] = $entity;
         $args["repeatable"] = $args["repeatable"] ?? false;
@@ -552,7 +553,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
-        $args["name"] = $args["slug"];
+        $args["name"] = $slug;
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -587,19 +588,19 @@ class WPCC_Builder {
                             'force_br_newlines' => true,
                             'force_p_newlines' => false,
                             "editor_height" => $args["height"],
-                            "textarea_name" => "{$args["slug_parent"]}[{$repeater}][{$args["name"]}]"
+                            "textarea_name" => "{$args["slug_parent"]}[{$repeater}][{$args["slug"]}]"
                         ]);
                     }
                     else {
                         // Use the js API wp.editor
                         ?>
-                        <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]"><?= $args["value"] ?></textarea>
+                        <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["slug"] ?>]"><?= $args["value"] ?></textarea>
                         <?php
                     }
                     ?>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
-                <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
+                <?php WPCC_Debug_Field(["Slug"=> $args["slug"], "Slug System" => $args["slug"]]) ?>
             </div>
             <?php
         });

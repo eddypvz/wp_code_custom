@@ -25,7 +25,7 @@ require_once("classes/entity_create.php");
 require_once("classes/entity.php");
 
 // Data retriever
-require_once("classes/data_retriever.php");
+require_once("classes/WPCC_DataRetriever.php");
 
 // thumbnails support
 add_theme_support("post-thumbnails");
