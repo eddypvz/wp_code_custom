@@ -34,25 +34,24 @@ class WPCC_DataRetriever {
                     // If is serialized
                     if (is_serialized($item)) {
 
+                    	// Data repeatable
                         $dataRepeatable = [];
                         $repeatableData = @unserialize($item);
 
                         // If the unserialize it's ok
                         if (is_array($repeatableData)) {
-
                             // Fix the name for childrens
                             foreach ($repeatableData as $keyData => $valueData) {
                                 foreach ($valueData as $keyField => $valueField) {
                                     if ($nameFieldChild = $searcFieldName($keyField)) {
-                                        $dataRepeatable[$nameFieldChild] = $valueField;
+                                        $dataRepeatable[$keyData][$nameFieldChild] = $valueField;
                                     }
                                     else {
-                                        $dataRepeatable[$keyField] = $valueField;
+                                        $dataRepeatable[$keyData][$keyField] = $valueField;
                                     };
                                 }
                             }
                         }
-
                         $fields[$nameField] = $dataRepeatable;
                     }
                     else {
