@@ -296,7 +296,9 @@
 }
 
 .WPCC_Field_Media img {
+    max-width: 100%;
     max-height: 120px;
+    margin: 3px 0;
 }
 
 .WPCC_Field_Media .btn-media {
