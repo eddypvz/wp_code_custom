@@ -71,9 +71,11 @@ class entity_create {
 		    $arrToMerge = [];
 		    foreach(entity_get::instance()->getTree() as $slug_field => $field){
 		        // if is child of postype
-		        if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
-			        $arrToMerge[$field["name"]] = $field["label"];
-                }
+			    if(isset($field["postype_parent"]) && isset($field["show_in_grid"])) {
+				    if ( $field["postype_parent"] === $slug && $field["show_in_grid"] == true ) {
+					    $arrToMerge[ $field["name"] ] = $field["label"];
+				    }
+			    }
 		    }
 		    return array_merge($columns, $arrToMerge);
 	    });
@@ -95,8 +97,10 @@ class entity_create {
 			    $join .= " LEFT JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND (1=1 ";
 
 			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
-				    if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
-					    $join .= " OR {$wpdb->postmeta}.meta_key = '{$slug_field}' ";
+				    if(isset($field["postype_parent"]) && isset($field["show_in_grid"])) {
+					    if ( $field["postype_parent"] === $slug && $field["show_in_grid"] == true ) {
+						    $join .= " OR {$wpdb->postmeta}.meta_key = '{$slug_field}' ";
+					    }
 				    }
 			    }
 			    $join .= " )";
@@ -112,7 +116,7 @@ class entity_create {
 		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
 		        $search = esc_sql(get_query_var("s"));
 			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
-			        if(isset($field["postype_parent"]) && $field["show_in_grid"]) {
+			        if(isset($field["postype_parent"]) && isset($field["show_in_grid"])) {
 				        if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
 					        $where .= " OR ({$wpdb->postmeta}.meta_value LIKE '%{$search}%') ";
 				        }
