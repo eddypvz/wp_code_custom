@@ -90,7 +90,7 @@ class WPCC_DataRetriever {
         $args["unique_display"] = $args["unique_display"] ?? true;
 
         // Supports ["fields", "permalink", "thumbnail"]
-        $args["include"] = ["fields", "permalink"]; // Defaults includes
+        $args["include"] = $args["include"] ?? ["fields", "permalink"]; // Defaults includes
 
         // Supports ["category", "custom_tax"]
         $args["include_taxonomies"] = $args["include_taxonomies"] ?? []; // Defaults includes
