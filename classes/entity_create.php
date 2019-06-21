@@ -111,10 +111,12 @@ class entity_create {
 		    // Only for postype and grid
 		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
 		        $search = esc_sql(get_query_var("s"));
-			    foreach(entity_get::instance()->getTree() as $slug_field => $field){
-				    if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
-					    $where .= " OR ({$wpdb->postmeta}.meta_value LIKE '%{$search}%') ";
-				    }
+			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
+			        if(isset($field["postype_parent"]) && $field["show_in_grid"]) {
+				        if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
+					        $where .= " OR ({$wpdb->postmeta}.meta_value LIKE '%{$search}%') ";
+				        }
+                    }
 			    }
 		    }
 		    return $where;
