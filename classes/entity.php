@@ -47,4 +47,8 @@ class Entity {
     public function GetType() {
     	return $this->type;
     }
+
+    public function GetPostypeParent() {
+	    return $this->args["postype_parent"] ?? false;
+    }
 }

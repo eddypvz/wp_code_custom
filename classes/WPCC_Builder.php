@@ -130,6 +130,7 @@ class WPCC_Builder {
         // Set the args for entity
         $args["entity_parent"] = $entity;
         $args["slug"] = "WPCC_{$slug}";
+        $args["postype_parent"] = $entity->GetSlug();
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -169,6 +170,7 @@ class WPCC_Builder {
         $args["label"] = $label;
         $args["entity_parent"] = $entity;
         $args["repeatable"] = $args["repeatable"] ?? false;
+	    $args["postype_parent"] = $entity->GetPostypeParent();
 
         // Save definition
         $entity->SetChildren($args);
@@ -306,6 +308,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $slug;
         $args["label"] = $label;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -344,6 +347,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $slug;
         $args["label"] = $label;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -389,6 +393,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $args["slug"];
         $args["label"] = $label;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -426,6 +431,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $args["slug"];
         $args["label"] = $label;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -463,6 +469,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $args["slug"];
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
@@ -509,6 +516,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $args["slug"];
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
@@ -553,6 +561,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $slug;
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
@@ -611,6 +620,7 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "custom_html_".uniqid();
+	    $args["postype_parent"] = $entity->GetPostypeParent();
         $args["name"] = $args["slug"];
 
         // Save definition

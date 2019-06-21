@@ -66,6 +66,60 @@ class entity_create {
             add_post_type_support($slug, 'thumbnail');
         }
 
+	    //merge $colums array. this add the colums to headers in grid
+	    add_filter("manage_{$slug}_posts_columns", function($columns) use ($slug){
+		    $arrToMerge = [];
+		    foreach(entity_get::instance()->getTree() as $slug_field => $field){
+		        // if is child of postype
+		        if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
+			        $arrToMerge[$field["name"]] = $field["label"];
+                }
+		    }
+		    return array_merge($columns, $arrToMerge);
+	    });
+
+	    // Get values for grid
+	    add_action("manage_{$slug}_posts_custom_column", function($column_slug, $post_id) {
+		    $postFields = \WPCC_DataRetriever::post_fields($post_id);
+		    if (!empty($postFields[$column_slug])) {
+		        print $postFields[$column_slug];
+		    }
+	    }, 10, 2);
+
+	    // Join for custom filter
+	    add_filter( 'posts_join', function ($join) use ($slug) {
+		    global $pagenow, $wpdb;
+
+		    // Only for postype and grid
+		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
+			    $join .= " LEFT JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND (1=1 ";
+
+			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
+				    if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
+					    $join .= " OR {$wpdb->postmeta}.meta_key = '{$slug_field}' ";
+				    }
+			    }
+			    $join .= " )";
+		    }
+		    return $join;
+	    });
+
+	    // Where for custom filter
+	    add_filter( 'posts_where', function ($where) use ($slug) {
+		    global $pagenow, $wpdb;
+
+		    // Only for postype and grid
+		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
+		        $search = esc_sql(get_query_var("s"));
+			    foreach(entity_get::instance()->getTree() as $slug_field => $field){
+				    if ($field["postype_parent"] === $slug && $field["show_in_grid"] == true) {
+					    $where .= " OR ({$wpdb->postmeta}.meta_value LIKE '%{$search}%') ";
+				    }
+			    }
+		    }
+		    return $where;
+	    } );
+
 	    // Return entity
 	    return entity_get::instance()->fromPostype($slug);
     }
