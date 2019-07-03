@@ -122,6 +122,8 @@ class entity_create {
 				        }
                     }
 			    }
+                // Filter by postype
+                $where .= " AND ({$wpdb->posts}.post_type = '{$slug}') ";
 		    }
 		    return $where;
 	    } );
