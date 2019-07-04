@@ -131,8 +131,13 @@ This method get data from any postype.
         ```
         >> Compare operator "=" uses the WP_Query/tax_query param.
         ##### Filter by fields
-        For filter by fields, we need append the slug of the group parent for field next to underscore and the field slug. 
-        The slug structure is: **metabox_slug / group_slug / field_slug**
+        
+        >> **Non repeteable fields:**
+        For non repeatable fields, we need append the slug of the group parent for the field that we need filter. Next, add the group slug and field slug. For example: **metabox_slug / group_slug / field_slug**
+                
+        >> **Repeteable fields (Groups):**
+        For non repeatable fields, we need append the slug of the group that we need filter. Next, add the group slug and field slug. For example: **metabox_slug / group_slug**. For repeatable groups, you only can uses operator "EXISTS" and "NOT EXISTS".
+                 
         ```php
           // Filter by fields
           $args["filter"] = [
@@ -141,9 +146,23 @@ This method get data from any postype.
           ];
         ```
         
+        ##### Compare param
+        Operator to test. Operator to test. Possible values are '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'EXISTS' (only in WP >= 3.5), and 'NOT EXISTS' (also only in WP >= 3.5). Values 'REGEXP', 'NOT REGEXP' and 'RLIKE' were added in WordPress 3.7. Default value is '='.
+        
+        If you uses "EXISTS" or "NOT EXISTS" operator, you need send the "value" in array. 
+        
+        For example:
+        ```php
+          // Filter by fields
+          $query = [
+                      "filters" => [
+                          ["field", "general/group_one/field_text_one", "EXISTS"], // Filter by field
+                          ["field", "general/group_one", "EXISTS"], // Filter by repeatable group
+                      ],
+                   ];
+        ``` 
+        
         ##### See taxonomy and fields filters together
-        For filter by fields, we need append the slug of the group parent for field next to underscore and the field slug. 
-        The slug structure is: **metabox_slug / group_slug / field_slug**
         ```php
           // Filter by fields
           $query = [
@@ -156,6 +175,7 @@ This method get data from any postype.
                    ];
         ```
         
+        This filters uses the native [WP_Meta_Query](https://codex.wordpress.org/Class_Reference/WP_Meta_Query), see this class for more information.
         ##### The comparition operator: 
         For filter fields, you can send in the third position the "compare" parameter used by wordpress in
         [WP_Query](https://codex.wordpress.org/Class_Reference/WP_Query) class.

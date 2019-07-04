@@ -113,7 +113,7 @@ class WPCC_DataRetriever {
             $compare = $valueFilter[2] ?? "=";
             $value = $valueFilter[3] ?? false;
 
-            if ($type && $slug && $compare && $value) {
+            if ($type && $slug && $compare) {
 
                 if ($type === "taxonomy") {
                     $params["tax_query"][] = [
@@ -125,11 +125,20 @@ class WPCC_DataRetriever {
                 else if ($type === "field") {
                     $slug = "WPCC_".str_replace("/", "_", $slug);
                     $compare = is_array($value) ? "IN" : $compare;
-                    $params["meta_query"][] = [
-                        'key' => $slug,
-                        'value' => $value,
-                        'compare' => $compare,
-                    ];
+
+                    if ($compare === "EXISTS" || $compare === "NOT EXISTS"){
+                        $params["meta_query"][] = [
+                            'key' => $slug,
+                            'compare' => $compare,
+                        ];
+                    }
+                    else{
+                        $params["meta_query"][] = [
+                            'key' => $slug,
+                            'value' => $value,
+                            'compare' => $compare,
+                        ];
+                    }
                 }
             }
             else{
