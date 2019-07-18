@@ -180,7 +180,22 @@ This method get data from any postype.
         For filter fields, you can send in the third position the "compare" parameter used by wordpress in
         [WP_Query](https://codex.wordpress.org/Class_Reference/WP_Query) class.
         
+### Method `taxonomy`
+This method get data from any postype.
+
+**Params:**
+
+- `$slug` _(String)_: Slug name for postype. This has been unique.
+- `$rows` _(Int)_: Number of rows for retrive, 0 is unlimited.
+- `$args` _(Array)_: This param contents multiple arguments.
+    - `unique_display` _(Bool)_: Default `true`. This disable the unique display that show an associative array when the query only retrive one row.
+    - `include` _(Array)_: Determine data for retrive per post.
+        - `fields`
+    - `filters` _(Array)_: This params configure the filters for query. The structure for filters is the same for filter from taxonomies and filter for custom fields.
+       
+        ##### Filter by fields
         
+        >> This use the same structure for filters from method `WPCC_DataRetriever::Post`
  
 
 

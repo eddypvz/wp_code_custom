@@ -82,11 +82,11 @@ class WPCC_DataRetriever {
      * @param array $args
      * @return array
      */
-    static function posts($slug, $rows, $args = []) {
+    static function posts($slug, $rows = 20, $args = []) {
 
         // Default params
         $args["slug"] = $slug ?? false;
-        $args["rows"] = $rows ?? 10;
+        $args["rows"] = $rows;
         $args["unique_display"] = $args["unique_display"] ?? true;
 
         // Supports ["fields", "permalink", "thumbnail"]
@@ -194,8 +194,67 @@ class WPCC_DataRetriever {
         return $query->posts;
     }
 
-    static function taxonomy() {
+    static function taxonomy($taxonomy = "", $rows = 20, $args  = []) {
 
+        // Defaults
+        $args["rows"] = $rows;
+
+        // Filters
+        $args["filters"] = $args["filters"] ?? []; // Defaults includes
+        $args["hide_empty"] = $args["hide_empty"] ?? false; // Defaults includes
+        $args["unique_display"] = $args["unique_display"] ?? true;
+
+        // Supports ["fields"]
+        $args["include"] = $args["include"] ?? ["fields"]; // Defaults includes
+
+        $params = array(
+            'hide_empty' => $args["hide_empty"], // also retrieve terms which are not used yet
+            'number' => $args["rows"],
+            'taxonomy'  => $taxonomy,
+        );
+
+        // Apply filters
+        foreach ($args["filters"] as $valueFilter) {
+
+            $type = $valueFilter[0] ?? false;
+            $slug = $valueFilter[1] ?? false;
+            $compare = $valueFilter[2] ?? "=";
+            $value = $valueFilter[3] ?? false;
+
+            if ($type && $slug && $compare) {
+
+                if ($type === "field") {
+                    $slug = str_replace("/", "_", $slug);
+                    $compare = is_array($value) ? "IN" : $compare;
+
+                    if ($compare === "EXISTS" || $compare === "NOT EXISTS"){
+                        $params["meta_query"][] = [
+                            'key' => $slug,
+                            'compare' => $compare,
+                        ];
+                    }
+                    else{
+                        $params["meta_query"][] = [
+                            'key' => $slug,
+                            'value' => $value,
+                            'compare' => $compare,
+                        ];
+                    }
+                }
+            }
+            else{
+                WPCC_message("DataRetriver", "Bad filter in query to '{$slug} postype'", true);
+            }
+        }
+
+        $rows = get_terms( $params );
+
+        // Unique display
+        if ($rows === 1 && $args["unique_display"] === true) {
+            return $rows[0] ?? [];
+        }
+
+        return $rows;
     }
 
     static function page_options() {
