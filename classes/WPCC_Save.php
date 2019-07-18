@@ -4,9 +4,7 @@ use wp_code_custom\entity_get;
 class WPCC_Save {
 
     static function save($post_id) {
-        global $wpdb;
-
-        // $postype = (!empty($_POST["post_type"])) ? $_POST["post_type"] : false;
+        // global $wpdb;
 
         //si se guardo automaticamente
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)return $post_id;

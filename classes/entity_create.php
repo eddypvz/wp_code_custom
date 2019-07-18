@@ -93,7 +93,7 @@ class entity_create {
 		    global $pagenow, $wpdb;
 
 		    // Only for postype and grid
-		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
+		    if ( is_admin() && 'edit.php' === $pagenow && (isset($_GET['post_type']) && $slug === $_GET['post_type']) && get_query_var("s") !== "" ) {
 			    $join .= " LEFT JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND (1=1 ";
 
 			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
@@ -113,7 +113,7 @@ class entity_create {
 		    global $pagenow, $wpdb;
 
 		    // Only for postype and grid
-		    if ( is_admin() && 'edit.php' === $pagenow && $slug === $_GET['post_type'] && get_query_var("s") !== "" ) {
+		    if ( is_admin() && 'edit.php' === $pagenow && (isset($_GET['post_type']) && $slug === $_GET['post_type']) && get_query_var("s") !== "" ) {
 		        $search = esc_sql(get_query_var("s"));
 			    foreach(entity_get::instance()->getTree() as $slug_field => $field) {
 			        if(isset($field["postype_parent"]) && isset($field["show_in_grid"])) {
