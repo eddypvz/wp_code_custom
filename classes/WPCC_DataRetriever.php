@@ -3,7 +3,7 @@ use wp_code_custom\entity_get;
 
 class WPCC_DataRetriever {
 
-    static function post_fields($post_id) {
+    static function fields($postOrTermID, $from = "post") {
 
         $treeFields = entity_get::instance()->getTree();
 
@@ -19,11 +19,16 @@ class WPCC_DataRetriever {
         $fields = [];
 
         // Get post meta
-        $post_meta = get_post_meta($post_id, '', true);
+        if ($from === "post") {
+            $metadata = get_post_meta($postOrTermID, '', true);
+        }
+        else {
+            $metadata = get_term_meta($postOrTermID, '', true);
+        }
 
         // If the post meta it's ok
-        if ($post_meta) {
-            foreach ($post_meta as $key => $item) {
+        if ($metadata) {
+            foreach ($metadata as $key => $item) {
 
                 // If is an array, get the first
                 $item = $item[0] ?? $item;
@@ -155,7 +160,7 @@ class WPCC_DataRetriever {
 
                 // Get fields
                 if (in_array("fields", $args["include"])) {
-                    $post->wpcc_fields = WPCC_DataRetriever::post_fields($post->ID);
+                    $post->wpcc_fields = WPCC_DataRetriever::fields($post->ID);
                 }
 
                 // Get taxonomies
@@ -247,14 +252,26 @@ class WPCC_DataRetriever {
             }
         }
 
-        $rows = get_terms( $params );
+        $terms = get_terms( $params );
 
-        // Unique display
-        if ($rows === 1 && $args["unique_display"] === true) {
-            return $rows[0] ?? [];
+        //
+        foreach($terms as $term) {
+            // Get fields
+            if (in_array("fields", $args["include"])) {
+
+                /*$term_vals = get_term_meta($term->term_id);
+                dd($term_vals);*/
+
+                $term->wpcc_fields = WPCC_DataRetriever::fields($term->term_id, "term");
+            }
         }
 
-        return $rows;
+        // Unique display
+        if ($terms === 1 && $args["unique_display"] === true) {
+            return $terms[0] ?? [];
+        }
+
+        return $terms;
     }
 
     static function page_options() {
