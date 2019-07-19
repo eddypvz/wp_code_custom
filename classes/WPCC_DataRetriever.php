@@ -87,10 +87,24 @@ class WPCC_DataRetriever {
      * @param array $args
      * @return array
      */
-    static function posts($slug, $rows = 20, $args = []) {
+    static function posts($from = null, $rows = 20, $args = []) {
+
+    	// Defaults from
+	    $postype = null;
+	    $postID = null;
+	    $postIDS = null;
+
+	    if (is_string($from)) {
+		    $postype = $from;
+	    }
+	    else if (is_integer($from)) {
+		    $postID = $from;
+	    }
+	    else if (is_array($from)) {
+		    $postIDS = $from;
+	    }
 
         // Default params
-        $args["slug"] = $slug ?? false;
         $args["rows"] = $rows;
         $args["unique_display"] = $args["unique_display"] ?? true;
 
@@ -103,12 +117,23 @@ class WPCC_DataRetriever {
         // Filters
         $args["filters"] = $args["filters"] ?? []; // Defaults includes
 
+	    $params = [
+		    'posts_per_page' => $args["rows"],
+		    'no_found_rows' => true,
+	    ];
+
         // Params for wp query
-        $params = [
-            'post_type' => $args["slug"],
-            'posts_per_page' => $args["rows"],
-            'no_found_rows' => true,
-        ];
+	    if ($postype !== null) {
+		    $params['post_type'] = $postype;
+	    }
+	    else if($postID !== null) {
+		    $params['p'] = $postID;
+		    $params['post_type'] = 'any';
+	    }
+	    else if($postIDS !== null) {
+		    $params['post__in'] = $postIDS;
+		    $params['post_type'] = 'any';
+	    }
 
         // Apply filters
         foreach ($args["filters"] as $valueFilter) {
