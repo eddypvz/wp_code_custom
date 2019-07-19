@@ -129,6 +129,7 @@ class WPCC_DataRetriever {
 	    else if($postID !== null) {
 		    $params['p'] = $postID;
 		    $params['post_type'] = 'any';
+		    $args["unique_display"] = true;
 	    }
 	    else if($postIDS !== null) {
 		    $params['post__in'] = $postIDS;

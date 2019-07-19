@@ -83,7 +83,7 @@ The `GetEntity` method return an object .
 #### `Postype`
 The `Postype` this method create a new **_custom postype_**. This method return an `Entity` object.
 
-- `slug` _(String)_: Slug name for postype. This has been unique.
+- `from` _(String, Array or Integer)_: If is string, contains the "postype" for get posts. If is integer, contains the ID for get only this post. If is array, contains an array with multiple ID for make all posts for this list.
 - `label` _(String)_: Label for display.
 - `args` _(Array)_: This param contents multiple arguments.
     - `public` _(Bool)_: Set the postype public.
