@@ -298,7 +298,13 @@
 .WPCC_Field_Media img {
     max-width: 100%;
     max-height: 120px;
-    margin: 3px 0;
+    margin: 3px auto;
+}
+
+.WPCC_Field_Media video {
+    max-width: 100%;
+    max-height: 120px;
+    margin: 3px auto;
 }
 
 .WPCC_Field_Media .btn-media {

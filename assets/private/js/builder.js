@@ -56,6 +56,7 @@ const WPCC_builder = function() {
             const action = $(this).attr("data-action");
             const mediaContainer = $(this).parent().parent();
             const img = mediaContainer.find("img");
+            const video = mediaContainer.find("video");
             const input = mediaContainer.find("input[type='hidden']");
 
             //If is select action
@@ -64,7 +65,19 @@ const WPCC_builder = function() {
 
                 // Get wp.media.editor
                 wp.media.editor.send.attachment = function(props, attachment){
-                    img.attr("src", attachment.url);
+
+                    // check extension and hide previews
+                    const is_video = (attachment.url.match(/\.(mp4|webm|ogg)$/) != null);
+                    video.hide();
+                    img.hide();
+
+                    // if is video
+                    if (is_video) {
+                        video.append('<source src="'+attachment.url+'#t=0.5" type="video/mp4">').show();
+                    }
+                    else{
+                        img.attr("src", attachment.url).show();
+                    }
                     input.val(attachment.url);
                     wp.media.editor.send.attachment = urlAttach;
                 };
@@ -73,7 +86,8 @@ const WPCC_builder = function() {
             else{
                 //if is delete action
                 input.val("");
-                img.attr("src", img.attr("data-none"));
+                img.attr("src", img.attr("data-none")).show();
+                video.html('').hide();
             }
         });
 

@@ -365,12 +365,25 @@ class WPCC_Builder {
             // Value and repeater
             $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
             $repeater = $groupArgs["repeat_number"] ?? 0;
+
+            $thumbnailShow = (!empty($args["value"]))?$args["value"]:$args["image_none"];
+	        $ext = pathinfo($thumbnailShow, PATHINFO_EXTENSION);
+	        $fileType = ($ext == "mp4" || $ext == "webm" || $ext == "ogg") ? "video" : "image";
             ?>
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
                     <div class="WPCC_Field_Media">
-                        <img src="<?= (!empty($args["value"]))?$args["value"]:$args["image_none"] ?>" data-none="<?= $args["image_none"] ?>"/>
+                        <div>
+                            <video controls="controls" preload="metadata" style="max-width: 100%; display: <?= ($fileType === "video")?"block":"none" ?>">
+                                <?php
+                                if ($fileType === "video") {
+                                    ?><source src="<?= $thumbnailShow ?>#t=0.5" type="video/mp4"><?php
+                                }
+                                ?>
+                            </video>
+                            <img src="<?= $thumbnailShow ?>" data-none="<?= $args["image_none"] ?>" style="display: <?= ($fileType === "image")?"block":"none" ?>"/>
+                        </div>
                         <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>"/>
                         <div class="btn-media">
                             <a class="link link-default WPCC_Field_Media_Action" data-action="select">Seleccionar</a>

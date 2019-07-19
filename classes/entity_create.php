@@ -82,7 +82,7 @@ class entity_create {
 
 	    // Get values for grid
 	    add_action("manage_{$slug}_posts_custom_column", function($column_slug, $post_id) {
-		    $postFields = \WPCC_DataRetriever::post_fields($post_id);
+		    $postFields = \WPCC_DataRetriever::fields($post_id);
 		    if (!empty($postFields[$column_slug])) {
 		        print $postFields[$column_slug];
 		    }
