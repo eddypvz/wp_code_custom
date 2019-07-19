@@ -253,7 +253,8 @@ class WPCC_Builder {
             }
 
             // Each to groups
-            foreach ($groups as $countRepeater => $cardValue) {
+	        $countRepeater = 0;
+            foreach ($groups as $cardValue) {
 
                 // Use the repeat number
                 $groupArgs["repeat_number"] = $post->repeat_number ?? $countRepeater ?? 0;
@@ -292,6 +293,7 @@ class WPCC_Builder {
                     </div>
                 </div>
                 <?php
+	            $countRepeater++;
             }
         });
 
