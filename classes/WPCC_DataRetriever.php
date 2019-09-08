@@ -300,7 +300,20 @@ class WPCC_DataRetriever {
         return $terms;
     }
 
-    static function page_options() {
+    static function page_options($slug = "") {
 
+        $arrData = [];
+
+        // Draw the childrens
+        foreach (entity_get::instance()->fromOptionsPage($slug)->GetChildren() as $child) {
+            $optionData = get_option($child["slug"]);
+
+            if (isset($child["repeatable"]) && $child["repeatable"]) {
+                $arrData[$child["slug"]] = $optionData;
+            }
+            else {
+                $arrData[$child["slug"]] = $optionData[0] ?? [];
+            }
+        }
     }
 }
