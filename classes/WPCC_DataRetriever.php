@@ -315,5 +315,6 @@ class WPCC_DataRetriever {
                 $arrData[$child["slug"]] = $optionData[0] ?? [];
             }
         }
+        return $arrData;
     }
 }
