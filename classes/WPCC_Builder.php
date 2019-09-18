@@ -601,7 +601,7 @@ class WPCC_Builder {
                 <div class="WPCC_Field_Editor" data-slug="<?= $newSlug ?>">
                     <?php
                     // Get current screen
-                    $screen = get_current_screen();
+                    /*$screen = get_current_screen();
 
                     // If gutenberg is active and is only in post edit window, use the wp_editor
                     if ( WPCC_gutenberg_active() && ($screen->parent_base == 'edit') ) {
@@ -617,11 +617,12 @@ class WPCC_Builder {
                     }
                     else {
                         // Use the js API wp.editor
-                        ?>
-                        <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["slug"] ?>]"><?= $args["value"] ?></textarea>
-                        <?php
-                    }
+                        */?><!--
+                        <textarea id="<?/*= $newSlug */?>" name="<?/*= $args["slug_parent"] */?>[<?/*= $repeater */?>][<?/*= $args["slug"] */?>]"><?/*= $args["value"] */?></textarea>
+                        --><?php
+/*                    }*/
                     ?>
+                    <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["slug"] ?>]"><?= $args["value"] ?></textarea>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
                 <?php WPCC_Debug_Field(["Slug"=> $args["slug"], "Slug System" => $args["slug"]]) ?>
