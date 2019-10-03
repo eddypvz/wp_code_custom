@@ -50,9 +50,18 @@ $vendor = [
         "ui/trumbowyg.css",
     ]
 ];
-// WPCC_load_scripts_folder($vendor, "vendor", true);
 
-// add the action
+// Picker
+$assets = [
+    "pickr-master" => [
+        "classic.min.css",
+        "pickr.min.js",
+    ],
+];
+WPCC_load_scripts_folder($assets, "vendor", true);
+
+
+// Builder
 $assets = [
     "css" => [
         "builder.css",
@@ -62,16 +71,3 @@ $assets = [
     ],
 ];
 WPCC_load_scripts_folder($assets, "assets/private", true);
-
-// Enqueue editor scripts
-
-//Load admin dashboard assets and scripts
-
-
-//Load admin dashboard scripts
-/*$assets = [
-    "js" => [
-        "payments.js",
-    ],
-];*/
-// cy_load_scripts_folder($assets, "assets/public");

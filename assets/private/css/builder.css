@@ -327,3 +327,8 @@
 .WPCC_Option_page_title {
     font-size: 1.7em;
 }
+
+/*Picker override*/
+.pickr .pcr-button{
+    width: 100%;
+}
