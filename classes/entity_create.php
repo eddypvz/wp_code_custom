@@ -128,6 +128,16 @@ class entity_create {
 		    return $where;
 	    } );
 
+	    // Search disctinct for avoid duplicates
+        add_filter( 'posts_distinct', function($where) use ($slug) {
+            global $pagenow;
+
+            if ( is_admin() && 'edit.php' === $pagenow && (isset($_GET['post_type']) && $slug === $_GET['post_type']) && get_query_var("s") !== "" ) {
+                return "DISTINCT";
+            }
+            return $where;
+        });
+
 	    // Return entity
 	    return entity_get::instance()->fromPostype($slug);
     }
