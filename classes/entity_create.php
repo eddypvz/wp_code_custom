@@ -150,12 +150,12 @@ class entity_create {
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
         $args["menu_order"] = $args["menu_order"] ?? 5;
         $args["enable_button_save"] = $args["enable_button_save"] ?? true;
-        $args["add_menu_page"] = $args["add_menu_page"] ?? 'manage_options';
+        $args["capability"] = $args["capability"] ?? 'manage_options';
 
         // create custom plugin settings menu
         add_action('admin_menu', function() use ($args) {
             //create new top-level menu
-            add_menu_page($args["label"], $args["label"], $args["add_menu_page"], "option_page_{$args["slug"]}", function() use ($args) {
+            add_menu_page($args["label"], $args["label"], $args["capability"], "option_page_{$args["slug"]}", function() use ($args) {
                 // Include media
                 wp_enqueue_media();
                 ?>
