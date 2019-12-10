@@ -7,16 +7,17 @@
 
 .WPCC_group .title{
     /*background: #0079b8;*/
-    background: #00669f;
-    font-size: 1.2em;
+    color: #00669f;
+    font-size: 2.3em;
+    margin: 25px 0;
     /*font-weight: bold;*/
-    padding: 8px 15px;
-    color: white;
+    /*padding: 8px 15px;*/
+    /*color: white;*/
     position: relative;
 }
 
 .WPCC_group_content {
-    padding: 5px;
+    /*padding: 5px;*/
     background: white;
 }
 
@@ -41,14 +42,17 @@
     clear: both;
 }
 
-.WPCC_group .card {
+.WPCC_group .WPCC_card {
     padding: 10px;
     text-align: left;
-    background-color: #f9f9f9;
-    margin: 5px;
+    background-color: white;
+    margin: 10px 0;
+    /*margin-bottom: 10px;*/
     max-width: inherit;
-    border: solid 3px #eeeeee;
+    /*border: solid 1px #b7b7b7;*/
     position: relative;
+    border: none;
+    border-bottom: 3px #d4d4d4 solid;
 }
 
 /* Responsive */
@@ -87,8 +91,8 @@
 
 .WPCC_group label {
     color: #0073AA;
-    font-size: 1.1em;
-    padding-bottom: 10px;
+    font-size: 1.2em;
+    padding-bottom: 15px;
 }
 
 .WPCC_group .link{
@@ -115,37 +119,33 @@
 }
 
 /* REPEATER */
-.WPCC_repeater{
-    position: absolute;
-    bottom: 6px;
-    right: 15px;
+.WPCC_repeater_add {
+    margin: 10px auto;
+    position: relative;
+    /*bottom: 6px;
+    right: 15px;*/
     z-index: 999;
-}
-
-.WPCC_repeater span{
-    margin-left: 10px;
+    background: #00b426;
+    border: solid 1px #009a20;
+    padding: 5px;
+    color: white;
+    max-width: 200px;
     cursor: pointer;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
+    text-align: center;
 }
 
-.WPCC_repeater .dashicons-before::before{
-    font-size: 30px;
+.WPCC_repeater_add:hover{
+    background: #009e21;
 }
 
-.WPCC_repeater .repeater_add{
-    cursor: pointer;
-    color: #00ca2b;
-}
-.WPCC_repeater .repeater_add:hover{
-    color: #62b907;
+.WPCC_repeater_add .dashicons-before::before{
+    font-size: 25px;
 }
 
 .WPCC_repeater_delete{
     position: absolute;
-    top: -8px;
-    left: -8px;
+    top: 3px;
+    right: 0;
 }
 
 .WPCC_repeater_delete .dashicons-before::before{
@@ -162,16 +162,16 @@
 }
 
 /* repeater for fields */
-.form-group .WPCC_repeater{
+/*.form-group .WPCC_repeater{
     position: absolute;
     bottom: -15px;
     right: 20px;
     z-index: 999;
-}
+}*/
 
-.form-group .WPCC_repeater .dashicons-before::before{
+/*.form-group .WPCC_repeater .dashicons-before::before{
     font-size: 20px;
-}
+}*/
 
 .form-group .WPCC_repeater_delete{
     position: absolute;

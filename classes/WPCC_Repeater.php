@@ -20,6 +20,9 @@ class WPCC_Repeater {
                 do_action("{$args["slug"]}_card", $repeater);
             }
         }
+        else{
+            print "Error adding field, please refresh the page";
+        }
     }
 }
 

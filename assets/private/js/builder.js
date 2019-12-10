@@ -11,13 +11,13 @@ const WPCC_builder = function() {
             $(this).parent().parent().parent().remove();
         });
 
-        $(".repeater_add").unbind("click").click(function() {
+        $(".WPCC_repeater_add").unbind("click").click(function() {
 
             let objectRepeater = this;
             let obj = $(this);
 
             //counter
-            let counter = obj.parent().parent().find(".WPCC_group_item").size();
+            let counter = obj.parent().find(".WPCC_group_item").size();
             counter++;
 
             //others
@@ -40,7 +40,7 @@ const WPCC_builder = function() {
                 obj.attr("data-counter", counter);
 
                 // append data
-                $(objectRepeater).parent().parent().find(".WPCC_group_content").append(data);
+                $(objectRepeater).parent().find(".WPCC_group_content").append(data);
 
                 // Refresh events
                 self.refreshEvents();

@@ -189,8 +189,11 @@ class WPCC_Builder {
                     <?php do_action("{$args["slug"]}_card", $post); ?>
                 </div>
                 <?php if ($args["repeatable"]): ?>
-                    <div class="WPCC_repeater">
-                        <span class="repeater_add" data-slug="<?= $args["slug"] ?>" data-type="card"><i class="dashicons-before dashicons-plus"></i></span>
+                    <div class="text-right">
+                        <div class="WPCC_repeater_add" data-slug="<?= $args["slug"] ?>" data-type="card">
+                            <span class="repeater_add"><i class="dashicons-before dashicons-plus"></i></span>
+                            &nbsp; Agregar nuevo elemento
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -278,7 +281,7 @@ class WPCC_Builder {
                 }
                 ?>
                 <div class="column WPCC_group_item">
-                    <div class="card">
+                    <div class="WPCC_card">
                         <?php
                         foreach ($entityGroup->GetChildren() as $child) {
                             do_action($child["slug"], $groupArgs);
@@ -286,7 +289,9 @@ class WPCC_Builder {
                         ?>
                         <?php if ($args["repeatable"]): ?>
                             <div class="WPCC_repeater_delete">
-                                <span class="repeater_delete"><i class="dashicons-before dashicons-dismiss"></i></span>
+                                <span class="repeater_delete">
+                                    <i class="dashicons-before dashicons-no"></i>
+                                </span>
                             </div>
                         <?php endif; ?>
                         <div class="clear"></div>
@@ -354,6 +359,7 @@ class WPCC_Builder {
         $args["label"] = $label;
         $args["placeholder"] = $args["placeholder"] ?? "";
         $args["size"] = $args["size"] ?? 50;
+        $args["rows"] = $args["rows"] ?? 6;
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
         $args["locked"] = $args["locked"] ?? "";
@@ -369,7 +375,7 @@ class WPCC_Builder {
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
-                    <textarea name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" <?= print ($args["locked"])?"disabled='disabled'":"" ?> ><?= $args["value"] ?></textarea>
+                    <textarea name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" rows="<?= $args["rows"] ?>" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" <?= print ($args["locked"])?"disabled='disabled'":"" ?> ><?= $args["value"] ?></textarea>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
