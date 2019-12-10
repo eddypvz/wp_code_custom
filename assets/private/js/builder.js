@@ -1,3 +1,4 @@
+
 const WPCC_builder = function() {
 
     const self = this;
@@ -98,25 +99,24 @@ const WPCC_builder = function() {
             const is_editor = $(b).attr("data-editor");
 
             // If the wp.editor library exists and the editor is not instanced
-            if(typeof wp.editor.initialize !== "undefined" && parseInt(is_editor) !== 1) {
-                wp.editor.initialize(slug, {
-                    mediaButtons: true,
-                    tinymce: true,
-                    quicktags: true,
-                });
-                $(b).attr("data-editor", 1);
-            }
-            else {
-                if(typeof  tinyMCEPreInit.mceInit.content != "undefined") {
-                    tinymce.init(tinyMCEPreInit.mceInit.content);
+            if (parseInt(is_editor) !== 1) {
+
+                const WP_editor = (typeof wp.editor.initialize !== "undefined") ? wp.editor : (typeof wp.oldEditor.initialize !== "undefined") ? wp.oldEditor : false;
+                if(WP_editor) {
+                    WP_editor.initialize(slug, {
+                        mediaButtons: true,
+                        tinymce:      {
+                            toolbar1: 'formatselect, bold, italic, bullist, numlist, link, blockquote, alignleft, aligncenter,alignright,strikethrough,hr,forecolor,pastetext,removeformat,codeformat,undo,redo'
+                        },
+                        quicktags: {
+                            buttons: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,dfw'
+                        }
+
+                    });
+                    $(b).attr("data-editor", 1);
                 }
-                tinyMCE.execCommand('mceAddEditor', true, slug);
-                if(typeof QTags.instances[0] != "undefined" && QTags.instances[0])QTags.instances[0] = false;
-                quicktags({id : slug});
-                $(b).find(".wp-editor-wrap").removeClass("html-active").addClass("tmce-active");
             }
         });
-
 
         /* COLOR PICKER */
         $(".WPCC_color_picker").each(function(a, b) {

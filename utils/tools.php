@@ -83,6 +83,19 @@ function WPCC_gutenberg_active() {
     return $use_block_editor;
 }
 
+/**
+ * Disable Gutenberg editor.
+ * @return bool
+ */
+function WPCC_disable_gutenberg() {
+    // Disable Gutenberg
+    if (version_compare($GLOBALS['wp_version'], '5.0-beta', '>')) {
+        add_filter('use_block_editor_for_post_type', '__return_false', 100);
+    } else {
+        add_filter('gutenberg_can_edit_post_type', '__return_false');
+    }
+}
+
 function WPCC_Debug_Field($arrDebug = []) {
     if (defined("WPCC_DEBUG_MODE")) {
         ?>

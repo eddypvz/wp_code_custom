@@ -277,7 +277,7 @@ class WPCC_Builder {
                     $groupArgs["card_values"] = $cardValue;
                 }
                 ?>
-                <div class="column2 WPCC_group_item">
+                <div class="column WPCC_group_item">
                     <div class="card">
                         <?php
                         foreach ($entityGroup->GetChildren() as $child) {
@@ -331,6 +331,45 @@ class WPCC_Builder {
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
                     <input name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" value="<?= $args["value"] ?>" <?= print ($args["locked"])?"disabled='disabled'":"" ?> />
+                    <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
+                </div>
+            </div>
+            <?php
+        });
+    }
+
+    public static function Add_Field_Plain_Text($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
+        $args["entity_parent"] = $entity;
+        $args["slug_parent"] = $entity->GetSlug();
+        $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
+        $args["name"] = $slug;
+        $args["label"] = $label;
+        $args["placeholder"] = $args["placeholder"] ?? "";
+        $args["size"] = $args["size"] ?? 50;
+        $args["show_in_grid"] = $args["show_in_grid"] ?? false;
+        $args["description"] = $args["description"] ?? "";
+        $args["locked"] = $args["locked"] ?? "";
+
+        // Save definition
+        $entity->SetChildren($args);
+
+        add_action($args["slug"], function ($groupArgs) use ($args, $slug) {
+            // Value and repeater
+            $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
+            $repeater = $groupArgs["repeat_number"] ?? 0;
+            ?>
+            <div class="column">
+                <div class="form-group">
+                    <label><?= $args["label"] ?></label>
+                    <textarea name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" type="text" class="form-control" aria-describedby="wpcc_aria_<?= $args["label"] ?>" placeholder="<?= $args["placeholder"] ?>" <?= print ($args["locked"])?"disabled='disabled'":"" ?> ><?= $args["value"] ?></textarea>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>
@@ -599,29 +638,6 @@ class WPCC_Builder {
             <div class="form-group">
                 <label><?= $args["label"] ?></label>
                 <div class="WPCC_Field_Editor" data-slug="<?= $newSlug ?>">
-                    <?php
-                    // Get current screen
-                    /*$screen = get_current_screen();
-
-                    // If gutenberg is active and is only in post edit window, use the wp_editor
-                    if ( WPCC_gutenberg_active() && ($screen->parent_base == 'edit') ) {
-
-                        wp_editor($args["value"], $newSlug, [
-                            'wpautop' => false,
-                            'forced_root_block' => false,
-                            'force_br_newlines' => true,
-                            'force_p_newlines' => false,
-                            "editor_height" => $args["height"],
-                            "textarea_name" => "{$args["slug_parent"]}[{$repeater}][{$args["slug"]}]"
-                        ]);
-                    }
-                    else {
-                        // Use the js API wp.editor
-                        */?><!--
-                        <textarea id="<?/*= $newSlug */?>" name="<?/*= $args["slug_parent"] */?>[<?/*= $repeater */?>][<?/*= $args["slug"] */?>]"><?/*= $args["value"] */?></textarea>
-                        --><?php
-/*                    }*/
-                    ?>
                     <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["slug"] ?>]"><?= $args["value"] ?></textarea>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
