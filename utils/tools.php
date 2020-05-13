@@ -1,16 +1,16 @@
 <?php
-use canary\canary;
+if (!function_exists("dd")) {
+    function dd($var){
 
-function dd($var){
-
-    print "<pre>";
-    if($var == "" || !$var){
-        var_dump($var);
+        print "<pre>";
+        if($var == "" || !$var){
+            var_dump($var);
+        }
+        else{
+            print_r($var);
+        }
+        print "</pre>";
     }
-    else{
-        print_r($var);
-    }
-    print "</pre>";
 }
 
 function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = false) {
