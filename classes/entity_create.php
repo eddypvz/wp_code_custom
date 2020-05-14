@@ -146,6 +146,7 @@ class entity_create {
 
         // Defaults
         $args["slug"] = $slug;
+        $args["slug_for_register"] = "WPCC_CP_{$args["slug"]}";
         $args["label"] = $label;
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
         $args["menu_order"] = $args["menu_order"] ?? 5;
@@ -162,9 +163,10 @@ class entity_create {
                 <div class="WPCC_Option_page">
                     <h2 class="WPCC_Option_page_title"><?= $args["label"] ?></h2>
                     <form method="post" action="options.php">
+                        <input type="hidden" name="option_page" value="<?= $args["slug_for_register"] ?>">
                         <?php
                             // Register group settings
-                            settings_fields( "WPCC_CP_{$args["slug"]}" );
+                            settings_fields( $args["slug_for_register"] );
 
                             // Draw the childrens
                             foreach (entity_get::instance()->fromOptionsPage($args["slug"])->GetChildren() as $child) {
@@ -186,10 +188,15 @@ class entity_create {
             // Register the options childrens
             add_action( 'admin_init', function() use ($args) {
                 foreach (entity_get::instance()->fromOptionsPage($args["slug"])->GetChildren() as $child) {
-                    register_setting( "WPCC_CP_{$args["slug"]}", $child["slug"] );
+                    register_setting( $args["slug_for_register"], $child["slug"] );
                 }
             });
         });
+
+        // Enable capabilities for custom option page
+        add_filter( "option_page_capability_{$args["slug_for_register"]}", function( $capability ) use ($args){
+            return $args["capability"];
+        } );
 
         // Return entity
         return entity_get::instance()->fromOptionsPage($slug);
