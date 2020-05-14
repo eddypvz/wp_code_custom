@@ -401,7 +401,7 @@ class WPCC_Builder {
         $args["size"] = $args["size"] ?? 50;
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
-        $args["image_none"] = WP_CODE_CUSTOM_DIR."/assets/private/img/noimage.png" ?? "";
+        $args["image_path"] = WP_CODE_CUSTOM_DIR."/assets/private/img/";
 
         // Save definition
         $entity->SetChildren($args);
@@ -411,23 +411,30 @@ class WPCC_Builder {
             $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
             $repeater = $groupArgs["repeat_number"] ?? 0;
 
-            $thumbnailShow = (!empty($args["value"]))?$args["value"]:$args["image_none"];
-	        $ext = pathinfo($thumbnailShow, PATHINFO_EXTENSION);
-	        $fileType = ($ext == "mp4" || $ext == "webm" || $ext == "ogg") ? "video" : "image";
+            $filePreviewUri = (!empty($args["value"]))?$args["value"]:"{$args["image_path"]}/noimage.png";
+            $fileType = WPCC_Filetype($filePreviewUri);
+
+            $filePreview = $filePreviewUri;
+            if ($fileType["type"] == "file") {
+               $filePreview = WP_CODE_CUSTOM_DIR."/assets/private/img/file-extensions/{$fileType["ext"]}.png";
+            }
             ?>
             <div class="column">
                 <div class="form-group">
                     <label><?= $args["label"] ?></label>
                     <div class="WPCC_Field_Media">
                         <div>
-                            <video controls="controls" preload="metadata" style="max-width: 100%; display: <?= ($fileType === "video")?"block":"none" ?>">
-                                <?php
-                                if ($fileType === "video") {
-                                    ?><source src="<?= $thumbnailShow ?>#t=0.5" type="video/mp4"><?php
-                                }
-                                ?>
-                            </video>
-                            <img src="<?= $thumbnailShow ?>" data-none="<?= $args["image_none"] ?>" style="display: <?= ($fileType === "image")?"block":"none" ?>"/>
+                            <div class="preview_image" style="display: <?= ($fileType["type"] == "image" || $fileType["type"] == "file") ? "block" : "none" ?>">
+                                <img src="<?= $filePreview ?>" data-images="<?= WP_CODE_CUSTOM_DIR."/assets/private/img/" ?>" />
+                            </div>
+                            <div class="preview_video" style="display: <?= ($fileType["type"] == "video") ? "block" : "none" ?>">
+                                <video controls="controls" preload="metadata" style="max-width: 100%;/>
+                                <source src="<?= $filePreview ?>#t=0.5" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="preview_file" style="display: <?= ($fileType["type"] == "file") ? "block" : "none" ?>">
+                                <a class="filenamePreviewLink" href="<?= $filePreviewUri ?>" target="_blank"><?= $fileType["name"] ?></a>
+                            </div>
                         </div>
                         <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>"/>
                         <div class="btn-media">

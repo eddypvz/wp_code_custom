@@ -4,6 +4,49 @@ const WPCC_builder = function() {
     const self = this;
     const $ = jQuery;
 
+    this.fileType = function(wp_attachment) {
+
+        const fileUrl = wp_attachment.url;
+
+        const filetype = {};
+        filetype["type"] = "no_supported";
+        filetype["url"] = (typeof wp_attachment.url !== "undefined") ? wp_attachment.url : null;
+        filetype["ext"] = filetype["url"].substr(filetype["url"].lastIndexOf('.') + 1);
+        filetype["name"] = (typeof wp_attachment.filename !== "undefined") ? wp_attachment.filename : null;
+
+
+        const imageExtensions = [
+            "jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "webp", "bmp", "dib","jp2", "svg", "gif", "tiff", "tif", "raw","svgz"
+        ];
+
+        const videoExtensions = [
+            "mp4", "webm", "ogg", "avi"
+        ];
+
+        const audioExtensions = [
+            "mp3", "aac", "midi"
+        ];
+
+        const fileExtensions = [
+            "pdf", "txt", "eps", "ai", "txt", "doc", "zip",
+        ];
+
+        if (imageExtensions.includes(filetype["ext"])) {
+            filetype["type"] = "image";
+        }
+        else if (videoExtensions.includes(filetype["ext"])) {
+            filetype["type"] = "video";
+        }
+        else if (audioExtensions.includes(filetype["ext"])) {
+            filetype["type"] = "audio";
+        }
+        else if (fileExtensions.includes(filetype["ext"])) {
+            filetype["type"] = "file";
+        }
+
+        return filetype;
+    };
+
     this.refreshEvents = function() {
 
         /*EVENTS REPEATER*/
@@ -59,6 +102,8 @@ const WPCC_builder = function() {
             const img = mediaContainer.find("img");
             const video = mediaContainer.find("video");
             const input = mediaContainer.find("input[type='hidden']");
+            const filePreview = mediaContainer.find(".preview_file");
+            const imagePath = img.attr("data-images");
 
             //If is select action
             if(action === "select") {
@@ -67,19 +112,30 @@ const WPCC_builder = function() {
                 // Get wp.media.editor
                 wp.media.editor.send.attachment = function(props, attachment){
 
-                    // check extension and hide previews
-                    const is_video = (attachment.url.match(/\.(mp4|webm|ogg)$/) != null);
-                    video.hide();
-                    img.hide();
+                    const filetype = self.fileType(attachment);
 
-                    // if is video
-                    if (is_video) {
-                        video.append('<source src="'+attachment.url+'#t=0.5" type="video/mp4">').show();
+                    if (filetype["type"] === "image") {
+                        img.attr("src", filetype["url"]).show();
+                        video.hide();
+                        img.show();
+                        filePreview.hide();
                     }
-                    else{
-                        img.attr("src", attachment.url).show();
+                    else if (filetype["type"] === "video") {
+                        // check extension and hide previews
+                        video.append('<source src="'+filetype["url"]+'#t=0.5" type="video/mp4">').show();
+                        video.show();
+                        img.hide();
+                        filePreview.hide();
                     }
-                    input.val(attachment.url);
+                    else if (filetype["type"] === "file") {
+                        img.attr("src", imagePath+"file-extensions/"+filetype["ext"]+".png").show();
+                        filePreview.find(".filenamePreviewLink").attr("href", filetype["url"]).html(filetype["name"]);
+                        video.hide();
+                        img.show();
+                        filePreview.show();
+                    }
+
+                    input.val(filetype["url"]);
                     wp.media.editor.send.attachment = urlAttach;
                 };
                 wp.media.editor.open();
@@ -87,8 +143,11 @@ const WPCC_builder = function() {
             else{
                 //if is delete action
                 input.val("");
-                img.attr("src", img.attr("data-none")).show();
+                img.attr("src", imagePath+"noimage.png").show();
                 video.html('').hide();
+
+                //clear file link
+                filePreview.hide();
             }
         });
 

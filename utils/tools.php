@@ -118,3 +118,43 @@ function WPCC_Debug_Field($arrDebug = []) {
         <?php
     }
 }
+
+function WPCC_Filetype($fileName = "") {
+    $fileName = strtolower($fileName);
+
+    $fileType = [];
+    $fileType["type"] = "no_supported";
+    $fileType["ext"] = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileType["name"] = pathinfo($fileName, PATHINFO_FILENAME).$fileType["ext"];
+
+    $imageExtensions = [
+        "jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "webp", "bmp", "dib","jp2", "svg", "gif", "tiff", "tif", "raw","svgz"
+    ];
+
+    $videoExtensions = [
+        "mp4", "webm", "ogg", "avi"
+    ];
+
+    $audioExtensions = [
+        "mp3", "aac", "midi"
+    ];
+
+    $fileExtensions = [
+        "pdf", "txt", "eps", "ai", "txt", "doc", "zip",
+    ];
+
+    if (in_array($fileType["ext"], $imageExtensions)) {
+        $fileType["type"] = "image";
+    }
+    else if (in_array($fileType["ext"], $videoExtensions)) {
+        $fileType["type"] = "video";
+    }
+    else if (in_array($fileType["ext"], $audioExtensions)) {
+        $fileType["type"] = "audio";
+    }
+    else if (in_array($fileType["ext"], $fileExtensions)) {
+        $fileType["type"] = "file";
+    }
+
+    return $fileType;
+}

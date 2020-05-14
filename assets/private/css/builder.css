@@ -297,14 +297,22 @@
 
 .WPCC_Field_Media img {
     max-width: 100%;
-    max-height: 120px;
-    margin: 3px auto;
+    max-height: 150px;
 }
 
 .WPCC_Field_Media video {
     max-width: 100%;
     max-height: 120px;
-    margin: 3px auto;
+    margin: 10px auto;
+}
+
+.WPCC_Field_Media .preview_file{
+    margin-bottom: 5px;
+}
+
+.WPCC_Field_Media .preview_file a{
+    font-size: 15px;
+    color: #007cff;
 }
 
 .WPCC_Field_Media .btn-media {
