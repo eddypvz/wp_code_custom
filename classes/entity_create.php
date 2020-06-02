@@ -161,7 +161,8 @@ class entity_create {
                 wp_enqueue_media();
                 ?>
                 <div class="WPCC_Option_page">
-                    <h2 class="WPCC_Option_page_title"><?= $args["label"] ?></h2>
+                    <h1 class="WPCC_Option_page_title"><?= $args["label"] ?></h1>
+                    <?php settings_errors(); ?>
                     <form method="post" action="options.php">
                         <input type="hidden" name="option_page" value="<?= $args["slug_for_register"] ?>">
                         <?php
