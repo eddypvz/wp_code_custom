@@ -644,7 +644,7 @@ class WPCC_Builder {
             // Editor slug
             $newSlug = $args["slug"]."_".uniqid();
             // Value and repeater
-            $args["value"] = $groupArgs["card_values"][$slug] ?? wpautop($groupArgs["card_values"][$args["slug"]]) ?? "";
+            $args["value"] = $groupArgs["card_values"][$args["slug"]] ?? wpautop($groupArgs["card_values"][$args["slug"]]) ?? "";
             $repeater = $groupArgs["repeat_number"] ?? 0;
             ?>
             <div class="clear"></div>

@@ -9,7 +9,11 @@ add_action('plugins_loaded', function(){
 });
 
 // Add editor
-wp_enqueue_editor();
+add_action( "admin_enqueue_scripts" , function() {
+    wp_enqueue_editor();
+});
+
+
 
 // load utils
 require_once("utils/tools.php");

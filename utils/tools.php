@@ -15,27 +15,37 @@ if (!function_exists("dd")) {
 
 function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = false) {
 
+    $action = "wp_enqueue_scripts";
+
     if($boolIsAdmin){
         if(!is_admin())return false;
+        $action = "admin_enqueue_scripts";
     }
 
-    foreach ($files as $folder => $filesDetail) {
-        foreach ($filesDetail as $file){
-            $ext = pathinfo($file, PATHINFO_EXTENSION);
-            $name = "wpcc_{$folder}_{$file}";
+    add_action( $action , function() use ($files, $from_dir) {
+        foreach ($files as $folder => $filesDetail) {
+            foreach ($filesDetail as $file){
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                $name = "wpcc_{$folder}_{$file}";
 
-            if($ext == "css"){
-                wp_enqueue_style($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}");
-            }
-            else if($ext == "js"){
-                wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}", [], 1, true);
+                if($ext == "css"){
+                    wp_enqueue_style($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}");
+                }
+                else if($ext == "js"){
+                    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}", [], 1, true);
+                }
             }
         }
-    }
+    });
+
+
+
 }
 
 function WPCC_load_public_script($name) {
-    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."assets/public/js/{$name}");
+    add_action( 'wp_enqueue_scripts', function() use ($name) {
+        wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."assets/public/js/{$name}");
+    });
 }
 
 function WPCC_message($from = "", $message = "", $boolDie = false) {
