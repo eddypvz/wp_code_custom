@@ -33,7 +33,8 @@ class WPCC_Save {
                     // Get only first
                     if (!empty($value[0])) {
                         foreach ($value[0] as $fieldKey => $fieldValue) {
-                            update_post_meta($post_id, $fieldKey, $fieldValue);
+                            $fieldSlug = "{$key}_{$fieldKey}";
+                            update_post_meta($post_id, $fieldSlug, $fieldValue);
                         }
                     }
                 }

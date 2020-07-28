@@ -651,7 +651,7 @@ class WPCC_Builder {
             <div class="form-group">
                 <label><?= $args["label"] ?></label>
                 <div class="WPCC_Field_Editor" data-slug="<?= $newSlug ?>">
-                    <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["slug"] ?>]"><?= $args["value"] ?></textarea>
+                    <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]"><?= $args["value"] ?></textarea>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
                 <?php WPCC_Debug_Field(["Slug"=> $args["slug"], "Slug System" => $args["slug"]]) ?>
