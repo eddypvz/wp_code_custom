@@ -207,6 +207,7 @@ class WPCC_Builder {
             $groupArgs["post_id"] = $post->ID ?? 0;
             $groupArgs["term_id"] = $post->term_id ?? 0;
             $groupArgs["card_values"] = [];
+            $groupArgs["repeatable"] = $args["repeatable"];
 
             // Default values for group
             $groups = [];
@@ -644,14 +645,23 @@ class WPCC_Builder {
             // Editor slug
             $newSlug = $args["slug"]."_".uniqid();
             // Value and repeater
-            $args["value"] = $groupArgs["card_values"][$args["name"]] ?? wpautop($groupArgs["card_values"][$args["name"]]) ?? "";
+
+            // if is not repeatable, find by name
+            if (!$groupArgs["repeatable"]) {
+                $args["value"] = $groupArgs["card_values"][$args["slug"]] ?? wpautop($groupArgs["card_values"][$args["slug"]]) ?? "";
+            }
+            else {
+                $args["value"] = $groupArgs["card_values"][$args["name"]] ?? wpautop($groupArgs["card_values"][$args["name"]]) ?? "";
+            }
+
+            // Set repeater
             $repeater = $groupArgs["repeat_number"] ?? 0;
             ?>
             <div class="clear"></div>
             <div class="form-group">
                 <label><?= $args["label"] ?></label>
                 <div class="WPCC_Field_Editor" data-slug="<?= $newSlug ?>">
-                    <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]"><?= $args["value"] ?></textarea>
+                    <textarea id="<?= $newSlug ?>" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" autocomplete="off"><?= $args["value"] ?></textarea>
                 </div>
                 <small class="field_description"><?= $args["description"] ?></small>
                 <?php WPCC_Debug_Field(["Slug"=> $args["slug"], "Slug System" => $args["slug"]]) ?>
