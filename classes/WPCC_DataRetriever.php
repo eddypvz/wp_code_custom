@@ -146,10 +146,18 @@ class WPCC_DataRetriever {
 
             if ($type && $slug && $compare) {
 
-                if ($type === "taxonomy") {
+                if ($type === "taxonomy" && $compare === "=") {
                     $params["tax_query"][] = [
                         'taxonomy' => $slug,
                         'field' => 'slug',
+                        'terms' => $value
+                    ];
+                }
+                if ($type === "taxonomy" && $compare === "!=") {
+                    $params["tax_query"][] = [
+                        'taxonomy' => $slug,
+                        'field' => 'slug',
+                        'operator' => 'NOT IN',
                         'terms' => $value
                     ];
                 }
