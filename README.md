@@ -92,6 +92,9 @@ The `Postype` this method create a new **_custom postype_**. This method return 
     - `icon` _(String)_: Dashicon icon name. 
     - `disable_editor` _(Bool)_: Disable the main wp_editor in the postype.
     - `disable_title` _(Bool)_: Disable the title in the postype.
+    - `disable_thumbnail` _(Bool)_: Disable the thumbnail in the postype.
+    - `enable_categories` _(Bool)_: Enable the default category taxonomy.
+    - `skip_post_type_register` _(Bool)_: Skip the call of "register_post_type", this work with postypes that already are defined or start before the WPCC entity has been created.
 
 #### `OptionPage`
 The `OptionPage` this method create a new **_options page_**. This method return an `Entity` object.
