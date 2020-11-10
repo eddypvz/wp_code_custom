@@ -46,13 +46,13 @@
     padding: 10px;
     text-align: left;
     background-color: white;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
     /*margin-bottom: 10px;*/
     max-width: inherit;
     /*border: solid 1px #b7b7b7;*/
     position: relative;
     border: none;
-    border-bottom: 3px #d4d4d4 solid;
+    border-bottom: 1px #eeeeee solid;
 }
 
 /* Responsive */
@@ -145,7 +145,7 @@
 .WPCC_repeater_delete{
     position: absolute;
     top: 3px;
-    right: 0;
+    right: 5px;
 }
 
 .WPCC_repeater_delete .dashicons-before::before{
@@ -337,6 +337,10 @@
 }
 
 /*Picker override*/
-.pickr .pcr-button{
+.WPCC_color_picker .pcr-button{
+    border: solid 1px #e2e2e2;
+}
+
+.WPCC_color_picker .pickr .pcr-button{
     width: 100%;
 }

@@ -71,7 +71,7 @@ The entities can been created by the method `CreateEntity` or can been getted by
 The `CreateEntity` method return an object that define the entity to be create.
 
 ```php
-$entityObject = $cdc->CreateEntity()->Postype("post");
+$entityObject = $wpcc->CreateEntity()->Postype("post");
 ```
 
 #### `GetEntity`
@@ -197,6 +197,42 @@ This method get data from any postype.
         
         >> This use the same structure for filters from method `WPCC_DataRetriever::Post`
  
+
+
+## Examples 
+There is an examples for use
+
+#### Adding custom tax to "post" postype. 
+```php
+    // Creating the entity for WPCC
+    $wpcc->CreateEntity()->Postype("post", "General content", ["public" => false, "disable_editor" => false, "icon" => "dashicons-admin-site"])->Build(function ($e) {
+      
+        // Adding category tax
+        WPCC_Builder::Add_Taxonomy("category", "Categories Label", [], $e, true)->Build(function ($e) {
+            
+            // Adding a custom fields group to category taxonomy 
+            WPCC_Builder::Add_Group("informacion", "Information Label", $e)->Build(function ($e) {
+                WPCC_Builder::Add_Field_Color_Picker("color", "Color Label", $e, ["description" => "empty = #00000"]);
+                WPCC_Builder::Add_Field_Media("imagen", "Image Label", $e);
+            });
+            WPCC_Builder::Add_Group("content_group", "Content Label", $e,["repeatable"=>true])->Build(function ($e) {
+                WPCC_Builder::Add_Field_Text("title", "Title Label", $e);
+                WPCC_Builder::Add_Field_Plain_Text("content_text", "Text Label", $e,["description"=>"This is a description"]);
+            });
+        });
+        // Adding metaboxes to "post" postype
+        WPCC_Builder::Add_Metabox("info", "Información", $e)->Build(function ($e) {
+            // Adding a custom group for "info" metabox
+            WPCC_Builder::Add_Group("slider", "Slider principal", $e, ["repeatable" => true])->Build(function ($e) {
+                WPCC_Builder::Add_Field_Text("titulo", "Título", $e);
+                WPCC_Builder::Add_Field_Text("descripcion", "Descripción", $e);
+                WPCC_Builder::Add_Field_Media("imagen", "Imágen", $e, ["description" => "Tamaño: 1920x750px"]);
+                WPCC_Builder::Add_Field_Media("imagen_movil", "Imágen Móvil", $e, ["description" => "Tamaño: 360x640px"]);
+            });
+        });
+    });
+
+```
 
 
 ## License

@@ -19,31 +19,31 @@ class entity_create {
 	    $args["disable_thumbnail"] = $args["disable_thumbnail"] ?? false;
 	    $args["enable_categories"] = $args["enable_categories"] ?? false;
 
-	    //Build the custom postypes
-	    register_post_type( $slug,
-		    array(
-			    'labels' => array(
-				    'name' => $label,
-				    'singular_name' => $label
-			    ),
-			    'public' => $args["public"],
-			    'has_archive' => true,
-			    //'rewrite' => array('slug' => strtolower($this->namePostype)."s", 'with_front' => true),
-			    'hierarchical' => false,
-			    'show_ui' => true,
-			    'show_in_menu' => $args["show_in_menu"],
-			    'menu_position' => $args["menu_order"],
-			    'show_in_admin_bar' => true,
-			    'show_in_nav_menus' => true,
-			    'show_in_rest' => true,
-			    'query_var' => true,
-			    'can_export' => true,
-			    'exclude_from_search' => false,
-			    'publicly_queryable' => true,
-			    'capability_type' => 'post',
-			    'menu_icon' => $args["icon"],
-		    )
-	    );
+        //Build the custom postypes
+        register_post_type( $slug,
+            array(
+                'labels' => array(
+                    'name' => $label,
+                    'singular_name' => $label
+                ),
+                'public' => $args["public"],
+                'has_archive' => true,
+                //'rewrite' => array('slug' => strtolower($this->namePostype)."s", 'with_front' => true),
+                'hierarchical' => false,
+                'show_ui' => true,
+                'show_in_menu' => $args["show_in_menu"],
+                'menu_position' => $args["menu_order"],
+                'show_in_admin_bar' => true,
+                'show_in_nav_menus' => true,
+                'show_in_rest' => true,
+                'query_var' => true,
+                'can_export' => true,
+                'exclude_from_search' => false,
+                'publicly_queryable' => true,
+                'capability_type' => 'post',
+                'menu_icon' => $args["icon"],
+            )
+        );
 
 	    // Enable categories
 	    if ($args["enable_categories"]) {
@@ -67,7 +67,7 @@ class entity_create {
         }
 
 	    //merge $colums array. this add the colums to headers in grid
-	    add_filter("manage_{$slug}_posts_columns", function($columns) use ($slug){
+	    add_filter("manage_{$slug}_posts_columns", function($columns) use ($slug) {
 		    $arrToMerge = [];
 		    foreach(entity_get::instance()->getTree() as $slug_field => $field){
 		        // if is child of postype
