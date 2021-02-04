@@ -3,7 +3,7 @@ use wp_code_custom\entity_get;
 
 class WPCC_DataRetriever {
 
-    static function fields($postOrTermID, $from = "post") {
+    static function fields($postOrTermID, $from = "post", $groupByParentSlug = false) {
 
         $treeFields = entity_get::instance()->getTree();
 
@@ -36,7 +36,7 @@ class WPCC_DataRetriever {
                 // If the name field exist in tree
                 if ($nameField = $searcFieldName($key)) {
 
-                    // If is serialized
+                    // If is serialized (repeatable)
                     if (is_serialized($item)) {
 
                     	// Data repeatable
@@ -60,7 +60,16 @@ class WPCC_DataRetriever {
                         $fields[$nameField] = $dataRepeatable;
                     }
                     else {
-                        $fields[$nameField] = $item;
+
+                        // if is not repeatable field, search the parent slug
+                        $slugParent = $treeFields[$key]["slug_parent"] ?? false;
+
+                        if ($slugParent && array_key_exists($slugParent, $treeFields) && isset($treeFields[$slugParent]['repeatable']) && $groupByParentSlug) {
+                            $fields[$treeFields[$slugParent]['name']][$nameField] = $item;
+                        }
+                        else {
+                            $fields[$nameField] = $item;
+                        }
                     }
                 }
             }
@@ -116,6 +125,9 @@ class WPCC_DataRetriever {
 
         // Filters
         $args["filters"] = $args["filters"] ?? []; // Defaults includes
+
+        // Group by parent slug
+        $args["groupByParent"] = $args["groupByParent"] ?? false;
 
 	    $params = [
 		    'posts_per_page' => $args["rows"],
@@ -194,7 +206,7 @@ class WPCC_DataRetriever {
 
                 // Get fields
                 if (in_array("fields", $args["include"])) {
-                    $post->wpcc_fields = WPCC_DataRetriever::fields($post->ID);
+                    $post->wpcc_fields = WPCC_DataRetriever::fields($post->ID, 'post', $args["groupByParent"]);
                 }
 
                 // Get taxonomies
@@ -246,6 +258,9 @@ class WPCC_DataRetriever {
         // Supports ["fields"]
         $args["include"] = $args["include"] ?? ["fields"]; // Defaults includes
 
+        // group by slug parent
+        $args["groupByParent"] = $args["groupByParent"] ?? false;
+
         $params = array(
             'hide_empty' => $args["hide_empty"], // also retrieve terms which are not used yet
             'number' => $args["rows"],
@@ -296,7 +311,7 @@ class WPCC_DataRetriever {
                 /*$term_vals = get_term_meta($term->term_id);
                 dd($term_vals);*/
 
-                $term->wpcc_fields = WPCC_DataRetriever::fields($term->term_id, "term");
+                $term->wpcc_fields = WPCC_DataRetriever::fields($term->term_id, "term", $args["groupByParent"]);
             }
         }
 
