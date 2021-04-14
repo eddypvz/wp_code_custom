@@ -2,18 +2,28 @@
     position: relative;
     margin: 15px auto;
     padding-bottom: 20px;
-    max-width: 750px;
+    max-width: 900px;
+    font-family: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .WPCC_group .title{
     /*background: #0079b8;*/
-    color: #00669f;
-    font-size: 2.3em;
+    color: #1e1e1e;
+    font-size: 2em;
     margin: 25px 0;
-    /*font-weight: bold;*/
+    font-weight: bold;
     /*padding: 8px 15px;*/
     /*color: white;*/
     position: relative;
+}
+
+.WPCC_group_item {
+    background: #fbfbfb;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: solid 1px #f2f2f2;
+    margin: 0 0 20px 0;
 }
 
 .WPCC_group_content {
@@ -45,14 +55,9 @@
 .WPCC_group .WPCC_card {
     padding: 10px;
     text-align: left;
-    background-color: white;
-    margin: 10px 0 0 0;
-    /*margin-bottom: 10px;*/
     max-width: inherit;
-    /*border: solid 1px #b7b7b7;*/
     position: relative;
     border: none;
-    border-bottom: 1px #eeeeee solid;
 }
 
 /* Responsive */
@@ -90,9 +95,10 @@
 }
 
 .WPCC_group label {
-    color: #0073AA;
+    color: #1e1e1e;
     font-size: 1.2em;
     padding-bottom: 15px;
+    font-weight: bold;
 }
 
 .WPCC_group .link{
@@ -120,22 +126,25 @@
 
 /* REPEATER */
 .WPCC_repeater_add {
-    margin: 10px auto;
+    margin: 25px auto 10px auto;
     position: relative;
     /*bottom: 6px;
     right: 15px;*/
     z-index: 999;
-    background: #00b426;
-    border: solid 1px #009a20;
+    background: #007cba;
+    /*border: solid 1px #009a20;*/
     padding: 5px;
     color: white;
     max-width: 200px;
     cursor: pointer;
     text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .WPCC_repeater_add:hover{
-    background: #009e21;
+    background: #0072ac;
 }
 
 .WPCC_repeater_add .dashicons-before::before{
@@ -144,21 +153,25 @@
 
 .WPCC_repeater_delete{
     position: absolute;
-    top: 3px;
+    top: 5px;
     right: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #1e1e1e;
 }
 
 .WPCC_repeater_delete .dashicons-before::before{
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .WPCC_repeater_delete .repeater_delete{
     cursor: pointer;
-    color: #a00;
+    color: white;
 }
 
-.WPCC_repeater_delete .repeater_delete:hover{
-    color: #e10000;
+.WPCC_repeater_delete:hover{
+    background: #a70000;
 }
 
 /* repeater for fields */
