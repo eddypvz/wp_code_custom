@@ -228,10 +228,10 @@ class WPCC_DataRetriever {
                 if (in_array("thumbnail", $args["include"])) {
                     $thumb_id = get_post_thumbnail_id($post);
                     $post->thumbnail = new \stdClass();
-                    $post->thumbnail->thumbnail = wp_get_attachment_image_src($thumb_id,'thumbnail', false)[0];
-                    $post->thumbnail->small = wp_get_attachment_image_src($thumb_id,'medium', false)[0];
-                    $post->thumbnail->medium = wp_get_attachment_image_src($thumb_id,'medium_large', false)[0];
-                    $post->thumbnail->full = wp_get_attachment_image_src($thumb_id,'full', false)[0];
+                    $post->thumbnail->thumbnail = wp_get_attachment_image_src($thumb_id,'thumbnail', false)[0] ?? "";
+                    $post->thumbnail->small = wp_get_attachment_image_src($thumb_id,'medium', false)[0] ?? "";
+                    $post->thumbnail->medium = wp_get_attachment_image_src($thumb_id,'medium_large', false)[0] ?? "";
+                    $post->thumbnail->full = wp_get_attachment_image_src($thumb_id,'full', false)[0] ?? "";
                 }
             }
         }
