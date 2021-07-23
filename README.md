@@ -14,15 +14,20 @@ Install the plugin following the next methods:
 ### Use Git
 Add the plugin like submodule in your plugins folder.
 ```bash
-git submodule add https://github.com/eddypvz/wp_code_custom.git
+git submodule add https://github.com/eddypvz/wp_code_custom.git wp-content/plugins/wp_code_custom
 ```
 
-### Use Zip
+**For init the submodules when the project has been cloned:**
 
-1. Download the plugin project: <br/>
-    <https://github.com/eddypvz/wp_code_custom/archive/master.zip>
-2. Extract in your plugin folder.
+```shell
+git submodule update --init --recursive
+```
 
+**For update the submodules whe the project has been initialized:**
+
+```shell
+git submodule update --recursive --remote
+```
 
 ## Activate plugin
 You can activate the plugin using the next methods:
@@ -49,7 +54,6 @@ Add this code in the `functions.php` file of your theme.
 
 ### Activate in Wordpress dashboard
 Go to the plugins page in the Wordpress Dashboard, find `WP Code Custom` and activate.
-
 
 ## Using the plugin
 WP Code Custom work with configuration code in theme, for build something, you need create an instance of WP Code Custom.

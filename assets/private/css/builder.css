@@ -149,6 +149,8 @@
 
 .WPCC_repeater_add .dashicons-before::before{
     font-size: 25px;
+    height: auto!important;
+    width: auto!important;
 }
 
 .WPCC_repeater_delete{
