@@ -56,11 +56,11 @@ class entity_create {
 
                 if ( ! $p_object ) return false;
 
-                $p_object->label = $args["label"];
-                $p_object->labels->name = $args["label"];
-                $p_object->labels->menu_name = $args["label"];
-                $p_object->labels->singular_name = $args["labelSingular"];
-                $p_object->menu_icon = $args["icon"];
+                $p_object->label = $args["label"] ?? $p_object->label;
+                $p_object->labels->name = $args["label"] ?? $p_object->labels->name;
+                $p_object->labels->menu_name = $args["label"] ?? $p_object->labels->menu_name;
+                $p_object->labels->singular_name = $args["labelSingular"] ?? $p_object->labels->singular_name;
+                $p_object->menu_icon = $args["icon"] ?? $p_object->menu_icon;
                 return true;
             });
         }
