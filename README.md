@@ -248,19 +248,27 @@ There is an examples for use
                 
                 // source for selects or 
                 $data = new WPCC_DataRetrieverSource();
-                $source = $data->posts('lalalala');
+                $source = $data->posts('product'); // woocommerce postype for example
                                 
-                WPCC_Builder::Add_Field_Select('testchosen2', 'TEST CHOSEN', $e, [
-                'options' => $source,
-                'source_field_to_show' => '[post_title] - [ID]',
-                'source_field_key' => '[ID]'
-            ]);
-            WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
-                'options' => $source,
-                'source_field_to_show' => '[post_title] - [ID]',
-                'source_field_key' => '[ID]'
-                //'options' => WPCC_DataRetriever::posts('lalalala')
-            ]);
+                WPCC_Builder::Add_Field_Select('productosSelect', 'Select de productos', $e, [
+                    'source' => $source,
+                    'source_field_to_show' => '[post_title] - [ID]',
+                    'source_field_key' => '[ID]'
+                ]);
+                
+                WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
+                    'source' => $source,
+                    'source_field_to_show' => '[post_title] - [ID]',
+                    'source_field_key' => '[ID]'
+                    //'options' => WPCC_DataRetriever::posts('lalalala')
+                ]);
+                
+                WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
+                    'source' => $source,
+                    'source_field_to_show' => '[post_title] - [ID]',
+                    'source_field_key' => '[ID]'
+                    //'options' => WPCC_DataRetriever::posts('lalalala')
+                ]);
             });
         });
     });
