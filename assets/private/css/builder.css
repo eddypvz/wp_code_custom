@@ -122,6 +122,12 @@
 .WPCC_group .form-control{
     margin: 3px 0 5px 0;
     width: 100%;
+    border-color: #cacaca;
+}
+.WPCC_group .dashicons-before::before{
+    height: auto!important;
+    width: auto!important;
+    color: white!important;
 }
 
 /* REPEATER */
@@ -149,8 +155,6 @@
 
 .WPCC_repeater_add .dashicons-before::before{
     font-size: 25px;
-    height: auto!important;
-    width: auto!important;
 }
 
 .WPCC_repeater_delete{
@@ -358,4 +362,9 @@
 
 .WPCC_color_picker .pickr .pcr-button{
     width: 100%;
+}
+
+/* autocomplete */
+.WPCC_field_autocomplete {
+    width: 100% !important;
 }

@@ -537,8 +537,8 @@ class WPCC_Builder {
         $args["entity_parent"] = $entity;
         $args["slug_parent"] = $entity->GetSlug();
         $args["slug"] = "{$args["slug_parent"]}_{$slug}";
-	    $args["postype_parent"] = $entity->GetPostypeParent();
-        $args["name"] = $args["slug"];
+        $args["postype_parent"] = $entity->GetPostypeParent();
+        $args["name"] = $slug;
         $args["label"] = $label;
         $args["repeatable"] = $args["repeatable"] ?? false;
         $args["placeholder"] = $args["placeholder"] ?? "";
@@ -546,6 +546,21 @@ class WPCC_Builder {
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
         $args["options"] = $args["options"] ?? [];
+        $args["source"] = $args["source"] ?? $args["options"];
+        $args["source_field_to_show"] = $args["source_field_to_show"] ?? false;
+        $args["source_field_key"] = $args["source_field_key"] ?? false;
+
+        if ($args["source"] instanceof WPCC_DataRetrieverSource) {
+
+            if (!$args["source_field_key"] || !$args["source_field_to_show"]) {
+                WPCC_message("WPCC_Builder", "Invalid source, verify source_field_key and source_field_to_show", true);
+            }
+
+            // reset source and add the new
+            $args["source"] = $args["source"]->get($args["source_field_key"], $args["source_field_to_show"]);
+        }
+
+        //dd($args["source"]);
 
         // Save definition
         $entity->SetChildren($args);
@@ -558,14 +573,66 @@ class WPCC_Builder {
             <div class="column">
                 <div class="form-group WPCC_Field_Select">
                     <label><?= $args["label"] ?></label>
-                    <select name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" data-placeholder="<?= $args["placeholder"] ?>"
-                            class="chosen-select">
-                        <?php foreach ($args["options"] as $key => $value): ?>
+                    <select name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" data-placeholder="<?= $args["placeholder"] ?>" class="WPCC_field_chosen_select">
+                        <?php foreach ($args["source"] as $key => $value): ?>
                             <?php $selected = ($args["value"] == $key) ? "selected='selected'" : ""; ?>
                             <option value="<?= $key ?>" <?= $selected ?>><?= $value ?></option>
                         <?php endforeach; ?>
                         ?>
                     </select>
+                    <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
+                    <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
+                </div>
+            </div>
+            <?php
+        });
+    }
+
+    public static function Add_Field_Autocomplete($slug, $label, Entity $entity, $args = []) {
+
+        // Validation if the entity is an group
+        if ($entity->GetType() !== "group") {
+            WPCC_message("WPCC_Builder", "Trying to add '{$slug}' field to non group identity.", true);
+        }
+
+        $args["entity_parent"] = $entity;
+        $args["slug_parent"] = $entity->GetSlug();
+        $args["slug"] = "{$args["slug_parent"]}_{$slug}";
+	    $args["postype_parent"] = $entity->GetPostypeParent();
+        $args["name"] = $slug;
+        $args["label"] = $label;
+        $args["repeatable"] = $args["repeatable"] ?? false;
+        $args["placeholder"] = $args["placeholder"] ?? "";
+        $args["size"] = $args["size"] ?? 50;
+        $args["show_in_grid"] = $args["show_in_grid"] ?? false;
+        $args["description"] = $args["description"] ?? "";
+        $args["options"] = $args["options"] ?? [];
+        $args["source"] = $args["source"] ?? $args["options"];
+        $args["source_field_to_show"] = $args["source_field_to_show"] ?? false;
+        $args["source_field_key"] = $args["source_field_key"] ?? false;
+
+        // Save definition
+        $entity->SetChildren($args);
+
+        if ($args["source"] instanceof WPCC_DataRetrieverSource) {
+
+            if (!$args["source_field_key"] || !$args["source_field_to_show"]) {
+                WPCC_message("WPCC_Builder", "Invalid field configuration, verify source_field_key and source_field_to_show", true);
+            }
+        }
+
+        add_action($args["slug"], function ($groupArgs) use ($args, $slug) {
+            // Value and repeater
+            $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
+            $repeater = $groupArgs["repeat_number"] ?? 0;
+            ?>
+            <div class="column">
+                <div class="form-group WPCC_Field_Select">
+                    <label><?= $args["label"] ?></label>
+                    <div>
+                        <input type="text" id="<?= $args["slug"] ?>" data-placeholder="<?= $args["placeholder"] ?>" class="WPCC_field_autocomplete" value="<?= $args["value"] ?>"/>
+                        <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>" class="WPCC_field_autocomplete_value"/>
+                    </div>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
                     <?php WPCC_Debug_Field(["Slug"=> $args["name"], "Slug System" => $args["slug"]]) ?>
                 </div>

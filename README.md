@@ -85,7 +85,7 @@ The `GetEntity` method return an object .
 ### Methods of `CreateEntity`
 
 #### `Postype`
-The `Postype` this method create a new **_custom postype_**. This method return an `Entity` object.
+The `Postype` method create a new **_custom postype_**. This method return an `Entity` object.
 
 - `from` _(String, Array or Integer)_: If is string, contains the "postype" for get posts. If is integer, contains the ID for get only this post. If is array, contains an array with multiple ID for make all posts for this list.
 - `label` _(String)_: Label for display.
@@ -100,13 +100,20 @@ The `Postype` this method create a new **_custom postype_**. This method return 
     - `enable_categories` _(Bool)_: Enable the default category taxonomy.
     - `skip_post_type_register` _(Bool)_: Skip the call of "register_post_type", this work with postypes that already are defined or start before the WPCC entity has been created.
 
+#### `CreatedPostype`
+The `CreatedPostype` method create an entity from another postype created for wpcc or other plugins. This method return an `Entity` object.
+
+- `slug` _(String)_: Slug name for postype. This has been unique and belonging of a already created postype.
+- `args` _(Array)_: This param contents multiple arguments. (Same args of registration postypes), if you send any arg for label or icon, this has been replaced for the new in postype.
+
 #### `OptionPage`
-The `OptionPage` this method create a new **_options page_**. This method return an `Entity` object.
+The `OptionPage` method create a new **_options page_**. This method return an `Entity` object.
 
 - `slug` _(String)_: Slug name for postype. This has been unique.
 - `label` _(String)_: Label for display.
 - `args` _(Array)_: This param contents multiple arguments.
     - `icon` _(String)_: Dashicon icon name.
+
 
 
 ## Class `WPCC_DataRetriever` 
@@ -203,8 +210,11 @@ This method get data from any postype.
         ##### Filter by fields
         
         >> This use the same structure for filters from method `WPCC_DataRetriever::Post`
- 
 
+
+## Class `WPCC_Builder`
+The `WPCC_Builder` class provide components available to add in a entity of WPCC.
+ 
 
 ## Examples 
 There is an examples for use
@@ -235,6 +245,22 @@ There is an examples for use
                 WPCC_Builder::Add_Field_Text("descripcion", "Descripción", $e);
                 WPCC_Builder::Add_Field_Media("imagen", "Imágen", $e, ["description" => "Tamaño: 1920x750px"]);
                 WPCC_Builder::Add_Field_Media("imagen_movil", "Imágen Móvil", $e, ["description" => "Tamaño: 360x640px"]);
+                
+                // source for selects or 
+                $data = new WPCC_DataRetrieverSource();
+                $source = $data->posts('lalalala');
+                                
+                WPCC_Builder::Add_Field_Select('testchosen2', 'TEST CHOSEN', $e, [
+                'options' => $source,
+                'source_field_to_show' => '[post_title] - [ID]',
+                'source_field_key' => '[ID]'
+            ]);
+            WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
+                'options' => $source,
+                'source_field_to_show' => '[post_title] - [ID]',
+                'source_field_key' => '[ID]'
+                //'options' => WPCC_DataRetriever::posts('lalalala')
+            ]);
             });
         });
     });

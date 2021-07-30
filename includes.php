@@ -19,6 +19,7 @@ add_action( "admin_enqueue_scripts" , function() {
 require_once("utils/tools.php");
 
 // Load builder
+require_once("classes/WPCC_Builder_Ajax.php");
 require_once("classes/WPCC_Builder.php");
 require_once("classes/WPCC_Save.php");
 require_once("classes/WPCC_Repeater.php");
@@ -30,33 +31,21 @@ require_once("classes/entity.php");
 
 // Data retriever
 require_once("classes/WPCC_DataRetriever.php");
+require_once("classes/WPCC_DataRetrieverSource.php");
 
 // thumbnails support
 add_theme_support("post-thumbnails");
 
-//Vendor
-$vendor = [
-    "jquery" => [
-        "jquery-3.3.1.min.js"
-    ],
-    "fontawesome" => [
-        "fontawesome-all.min.css",
-    ],
-    "chosen" => [
-        "chosen.jquery.js",
-        "chosen.css",
-    ],
-    "bootstrap4" => [
-        "bootstrap-grid.min.css",
-    ],
-    "trumbowyg" => [
-        "trumbowyg.js",
-        "ui/trumbowyg.css",
-    ]
-];
-
-// Picker
+// load vendor
 $assets = [
+    "chosen" => [
+        "chosen.jquery.min.js",
+        "chosen.min.css",
+    ],
+    "autocomplete" => [
+        "autoComplete.min.js",
+        "autoComplete.min.css",
+    ],
     "pickr-master" => [
         "classic.min.css",
         "pickr.min.js",

@@ -10,7 +10,10 @@ class entity_create {
     public function Postype($slug = "", $label = "", $args = []) {
 
     	// Default params
+	    $args["slug"] = $slug;
 	    $args["public"] = $args["public"] ?? true;
+	    $args["label"] = $args["label"] ?? $label;
+	    $args["labelSingular"] = $args["labelSingular"] ?? $args["label"];
 	    $args["show_in_menu"] = $args["show_in_menu"] ?? true;
 	    $args["menu_order"] = $args["menu_order"] ?? 5;
 	    $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
@@ -25,8 +28,8 @@ class entity_create {
             register_post_type( $slug,
                 array(
                     'labels' => array(
-                        'name' => $label,
-                        'singular_name' => $label
+                        'name' => $args["label"],
+                        'singular_name' => $args["labelSingular"]
                     ),
                     'public' => $args["public"],
                     'has_archive' => true,
@@ -46,6 +49,20 @@ class entity_create {
                     'menu_icon' => $args["icon"],
                 )
             );
+        }
+        else {
+            add_action( 'init', function () use ($args) {
+                $p_object = get_post_type_object( $args["slug"] );
+
+                if ( ! $p_object ) return false;
+
+                $p_object->label = $args["label"];
+                $p_object->labels->name = $args["label"];
+                $p_object->labels->menu_name = $args["label"];
+                $p_object->labels->singular_name = $args["labelSingular"];
+                $p_object->menu_icon = $args["icon"];
+                return true;
+            });
         }
 
 	    // Enable categories
@@ -143,6 +160,14 @@ class entity_create {
 
 	    // Return entity
 	    return entity_get::instance()->fromPostype($slug);
+    }
+
+    public function CreatedPostype($slug, $args = []) {
+        // skip postype creation
+        $args['skip_post_type_register'] = true;
+
+        // create entity
+        return $this->Postype($slug, false, $args);
     }
 
     public function OptionPage($slug = "", $label = "", $args = []) {

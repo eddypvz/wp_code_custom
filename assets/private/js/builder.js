@@ -238,6 +238,79 @@ const WPCC_builder = function() {
                 });
             }
         });
+
+        /* Autocomplete */
+        $('.WPCC_field_autocomplete').each(function (a ,b) {
+            const idField = $(b).attr('id');
+            const initialValue = $(b).val();
+            let startValue = 1;
+            const autoCompleteJS = new autoComplete({
+                selector: '#'+idField,
+                placeHolder: "Escribe aquí para buscar",
+                data: {
+                    src: async (query) => {
+                        try {
+                            // Fetch Data from external Source
+                            const source = await fetch(ajaxurl+'?action=wpcc_builder_ajax_source&field='+idField+'&s='+query+'&i='+startValue);
+                            return await source.json();
+                        } catch (error) {
+                            return error;
+                        }
+                    },
+                    // Data 'Object' key to be searched
+                    keys: ["value"]
+                },
+                resultItem: {
+                    highlight: {
+                        render: true
+                    }
+                },
+                resultsList: {
+                    element: (list, data) => {
+                        const info = document.createElement("p");
+                        if (data.results.length > 0) {
+                            info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
+                        } else {
+                            info.innerHTML = `Encontrados <strong>${data.matches.length}</strong> resultados con <strong>"${data.query}"</strong>`;
+                        }
+                        list.prepend(info);
+                    },
+                    noResults: true,
+                    maxResults: 15,
+                    tabSelect: true
+                },
+                events: {
+                    input: {
+                        focus: () => {
+                            if (autoCompleteJS.input.value.length) autoCompleteJS.start();
+                        }
+                    }
+                }
+            });
+
+            autoCompleteJS.input.addEventListener("selection", function (event) {
+                startValue = 0;
+                const feedback = event.detail;
+                autoCompleteJS.input.blur();
+                autoCompleteJS.input.value = feedback.selection.value[feedback.selection.key];
+                $(autoCompleteJS.input).parent().parent().find('.WPCC_field_autocomplete_value').val(feedback.selection.value.key);
+            });
+
+            // on load results, select first
+            autoCompleteJS.input.addEventListener("open", function (event) {
+                if (initialValue !== '' && startValue) {
+                    autoCompleteJS.select(0);
+                }
+            });
+
+            // on autocomplete start, search the selected value
+            if (initialValue !== '' && startValue) {
+                autoCompleteJS.start(initialValue);
+            }
+        })
+
+        /*Chosen*/
+        $(".WPCC_field_chosen_select").chosen();
     }
 };
 

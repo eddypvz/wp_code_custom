@@ -148,6 +148,11 @@ class WPCC_DataRetriever {
 		    $params['post_type'] = 'any';
 	    }
 
+	    // filter by post id and postype
+	    if (!empty($args['post_id'])) {
+            $params['p'] = $args['post_id'];
+        }
+
         // Apply filters
         foreach ($args["filters"] as $valueFilter) {
 

@@ -16,7 +16,6 @@ require_once("includes.php");
 
 use wp_code_custom\entity_get;
 use wp_code_custom\entity_create;
-use wp_code_custom\data_retriever;
 
 
 final class wp_code_custom {
