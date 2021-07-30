@@ -4,7 +4,8 @@ class WPCC_DataRetrieverSource {
 
     private $config;
 
-    public function fields($postOrTermID, $from = "post", $groupByParentSlug = false): WPCC_DataRetrieverSource  {
+    /*
+     * public function fields($postOrTermID, $from = "post", $groupByParentSlug = false): WPCC_DataRetrieverSource  {
         $this->config = [
             'type' => 'fields',
             'postOrTermID' => $postOrTermID,
@@ -22,6 +23,15 @@ class WPCC_DataRetrieverSource {
         ];
         return $this;
     }
+
+    public function page_options($slug = ""): WPCC_DataRetrieverSource  {
+        $this->config = [
+            'type' => 'page_options',
+            'slug' => $slug,
+        ];
+        return $this;
+    }
+    */
 
     /**
      * @param string $slug, Slug for postype to retrive posts.
@@ -48,14 +58,6 @@ class WPCC_DataRetrieverSource {
         return $this;
     }
 
-    public function page_options($slug = ""): WPCC_DataRetrieverSource  {
-        $this->config = [
-            'type' => 'page_options',
-            'taxonomy' => $slug,
-        ];
-        return $this;
-    }
-
     public function get($fieldKey = "", $fieldValue = "", $overrideArgs = []) {
 
         if (empty($fieldKey) || empty($fieldValue)) {
@@ -68,6 +70,13 @@ class WPCC_DataRetrieverSource {
         if ($this->config['type'] === 'posts') {
             $args = array_merge($this->config['args'], $overrideArgs);
             $dataSourceTMP = WPCC_DataRetriever::posts($this->config['from'], $this->config['rows'] ?? 20, $args);
+        }
+        else if ($this->config['type'] === 'taxonomy') {
+            $args = array_merge($this->config['args'], $overrideArgs);
+            $dataSourceTMP = WPCC_DataRetriever::taxonomy($this->config['taxonomy'], $this->config['rows'] ?? 20, $args);
+        }
+        else {
+            WPCC_message("WPCC_DataRetrieverSource", "The '{$this->config['type']}' data source is not supported", true);
         }
 
         foreach ($dataSourceTMP as $item) {

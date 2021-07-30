@@ -246,7 +246,7 @@ There is an examples for use
                 WPCC_Builder::Add_Field_Media("imagen", "Imágen", $e, ["description" => "Tamaño: 1920x750px"]);
                 WPCC_Builder::Add_Field_Media("imagen_movil", "Imágen Móvil", $e, ["description" => "Tamaño: 360x640px"]);
                 
-                // source for selects or 
+                // source for selects or autocomplete
                 $data = new WPCC_DataRetrieverSource();
                 $source = $data->posts('product'); // woocommerce postype for example
                                 
@@ -255,19 +255,14 @@ There is an examples for use
                     'source_field_to_show' => '[post_title] - [ID]',
                     'source_field_key' => '[ID]'
                 ]);
-                
-                WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
-                    'source' => $source,
-                    'source_field_to_show' => '[post_title] - [ID]',
-                    'source_field_key' => '[ID]'
-                    //'options' => WPCC_DataRetriever::posts('lalalala')
-                ]);
-                
-                WPCC_Builder::Add_Field_Autocomplete('testchosen', 'TEST CHOSEN', $e, [
-                    'source' => $source,
-                    'source_field_to_show' => '[post_title] - [ID]',
-                    'source_field_key' => '[ID]'
-                    //'options' => WPCC_DataRetriever::posts('lalalala')
+                                
+                $data2 = new WPCC_DataRetrieverSource();
+                $source2example = $data2->taxonomy('product_cat');  // woocommerce products cat for example
+
+                WPCC_Builder::Add_Field_Select('testTaxSelector', 'Taxonomy Select', $e, [
+                    'options' => $source2example,
+                    'source_field_to_show' => '[name] - ([slug])',
+                    'source_field_key' => '[term_id]'
                 ]);
             });
         });
