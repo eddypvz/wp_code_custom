@@ -26,7 +26,7 @@ git submodule update --init --recursive
 **For update the submodules whe the project has been initialized:**
 
 ```shell
-git submodule update --recursive --remote
+git submodule update --recursive --remote --force
 ```
 
 ## Activate plugin
