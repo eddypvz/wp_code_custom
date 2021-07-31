@@ -10,7 +10,7 @@
     /*background: #0079b8;*/
     color: #2271b1;
     font-size: 1.3em;
-    margin: 25px 0;
+    margin: 15px 0 5px 0;
     font-weight: bold;
     /*padding: 8px 15px;*/
     /*color: white;*/
@@ -18,12 +18,7 @@
 }
 
 .WPCC_group_item {
-    background: #f9f9f9;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    border: solid 1px #f4f4f4;
-    margin: 10px;
+
 }
 
 .WPCC_group_content {
@@ -37,12 +32,12 @@
 }
 
 .WPCC_group_content .column2 {
-    display: inline-block;
-    width: 48%;
+    float: left;
+    width: 50%;
 }
 
 .WPCC_group_content .column3 {
-    display: inline-block;
+    float: left;
     width: 33%;
 }
 
@@ -57,7 +52,13 @@
     text-align: left;
     max-width: inherit;
     position: relative;
-    border: none;
+    /*border: none;*/
+    background: #f9f9f9;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: solid 1px #f4f4f4;
+    margin: 10px 10px 5px 0;
 }
 
 /* Responsive */
@@ -135,7 +136,7 @@
 
 /* REPEATER */
 .WPCC_repeater_add {
-    margin: 15px auto 5px auto;
+    margin: 15px auto 5px 0;
     position: relative;
     /*bottom: 6px;
     right: 15px;*/

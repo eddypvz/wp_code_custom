@@ -11,6 +11,8 @@
 
 if(!defined( 'ABSPATH' ))exit;
 
+const WPCC_VERSION = '1.0.0';
+
 // Load includes
 require_once("includes.php");
 

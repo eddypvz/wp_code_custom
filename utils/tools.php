@@ -29,10 +29,10 @@ function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = fa
                 $name = "wpcc_{$folder}_{$file}";
 
                 if($ext == "css"){
-                    wp_enqueue_style($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}");
+                    wp_enqueue_style($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}?wpccv=".WPCC_VERSION);
                 }
                 else if($ext == "js"){
-                    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}", [], 1, true);
+                    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}?wpccv=".WPCC_VERSION, [], 1, true);
                 }
             }
         }
