@@ -141,7 +141,7 @@
     /*bottom: 6px;
     right: 15px;*/
     z-index: 999;
-    background: #007cba;
+    background: #43687b;
     /*border: solid 1px #009a20;*/
     padding: 5px;
     color: white;
@@ -154,7 +154,7 @@
 }
 
 .WPCC_repeater_add:hover{
-    background: #0072ac;
+    background: #5c8399;
 }
 
 .WPCC_repeater_add .dashicons-before::before{
