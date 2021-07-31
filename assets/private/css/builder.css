@@ -2,7 +2,7 @@
     position: relative;
     margin: 15px auto;
     padding-bottom: 20px;
-    max-width: 900px;
+    max-width: 95%;
     font-family: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 }
 
@@ -18,12 +18,12 @@
 }
 
 .WPCC_group_item {
-    background: #fbfbfb;
+    background: #f9f9f9;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: solid 1px #f2f2f2;
-    margin: 0 0 20px 0;
+    border: solid 1px #f4f4f4;
+    margin: 10px;
 }
 
 .WPCC_group_content {
@@ -37,13 +37,13 @@
 }
 
 .WPCC_group_content .column2 {
-    float: left;
-    width: 50%;
+    display: inline-block;
+    width: 48%;
 }
 
 .WPCC_group_content .column3 {
-    float: left;
-    width: 33.33%;
+    display: inline-block;
+    width: 33%;
 }
 
 .WPCC_group_content:after {
@@ -93,6 +93,9 @@
     padding: 3px 8px;
     /*border-left: solid 2px rgba(0, 115, 170, 0.56);*/
 }
+.WPCC_group .chosen-container {
+    display: block;
+}
 
 .WPCC_group label {
     color: #1e1e1e;
@@ -132,7 +135,7 @@
 
 /* REPEATER */
 .WPCC_repeater_add {
-    margin: 25px auto 10px auto;
+    margin: 15px auto 5px auto;
     position: relative;
     /*bottom: 6px;
     right: 15px;*/
@@ -154,7 +157,7 @@
 }
 
 .WPCC_repeater_add .dashicons-before::before{
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .WPCC_repeater_delete{

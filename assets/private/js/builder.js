@@ -241,17 +241,17 @@ const WPCC_builder = function() {
 
         /* Autocomplete */
         $('.WPCC_field_autocomplete').each(function (a ,b) {
-            const idField = $(b).attr('id');
+            const slugField = $(b).attr('data-slug');
             const initialValue = $(b).val();
             let startValue = 1;
             const autoCompleteJS = new autoComplete({
-                selector: '#'+idField,
+                selector: '#'+$(b).attr('id'),
                 placeHolder: "Escribe aquí para buscar",
                 data: {
                     src: async (query) => {
                         try {
                             // Fetch Data from external Source
-                            const source = await fetch(ajaxurl+'?action=wpcc_builder_ajax_source&field='+idField+'&s='+query+'&i='+startValue);
+                            const source = await fetch(ajaxurl+'?action=wpcc_builder_ajax_source&field='+slugField+'&s='+query+'&i='+startValue);
                             return await source.json();
                         } catch (error) {
                             return error;
@@ -315,7 +315,7 @@ const WPCC_builder = function() {
             if (initialValue !== '' && startValue) {
                 autoCompleteJS.start(initialValue);
             }
-        })
+        });
 
         /*Chosen*/
         $(".WPCC_field_chosen_select").chosen();

@@ -281,7 +281,7 @@ class WPCC_Builder {
                     $groupArgs["card_values"] = $cardValue;
                 }
                 ?>
-                <div class="column WPCC_group_item">
+                <div class="column2 WPCC_group_item">
                     <div class="WPCC_card">
                         <?php
                         foreach ($entityGroup->GetChildren() as $child) {
@@ -560,8 +560,6 @@ class WPCC_Builder {
             $args["source"] = $args["source"]->get($args["source_field_key"], $args["source_field_to_show"]);
         }
 
-        //dd($args["source"]);
-
         // Save definition
         $entity->SetChildren($args);
 
@@ -622,6 +620,8 @@ class WPCC_Builder {
         }
 
         add_action($args["slug"], function ($groupArgs) use ($args, $slug) {
+            // Editor slug
+            $fieldID = $args["slug"]."_".uniqid();
             // Value and repeater
             $args["value"] = $groupArgs["card_values"][$slug] ?? $groupArgs["card_values"][$args["slug"]] ?? "";
             $repeater = $groupArgs["repeat_number"] ?? 0;
@@ -630,7 +630,7 @@ class WPCC_Builder {
                 <div class="form-group WPCC_Field_Select">
                     <label><?= $args["label"] ?></label>
                     <div>
-                        <input type="text" id="<?= $args["slug"] ?>" data-placeholder="<?= $args["placeholder"] ?>" class="WPCC_field_autocomplete" value="<?= $args["value"] ?>"/>
+                        <input type="text" id="<?= $fieldID ?>" data-slug="<?= $args["slug"] ?>" data-placeholder="<?= $args["placeholder"] ?>" class="WPCC_field_autocomplete" value="<?= $args["value"] ?>"/>
                         <input type="hidden" name="<?= $args["slug_parent"] ?>[<?= $repeater ?>][<?= $args["name"] ?>]" value="<?= $args["value"] ?>" class="WPCC_field_autocomplete_value"/>
                     </div>
                     <small id="wpcc_aria_<?= $args["label"] ?>" class="field_description"><?= $args["description"] ?></small>
