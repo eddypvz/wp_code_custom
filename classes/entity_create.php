@@ -16,7 +16,6 @@ class entity_create {
 	    $args["labelSingular"] = $args["labelSingular"] ?? $args["label"];
 	    $args["show_in_menu"] = $args["show_in_menu"] ?? true;
 	    $args["menu_order"] = $args["menu_order"] ?? 5;
-	    $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
 	    $args["disable_editor"] = $args["disable_editor"] ?? false;
 	    $args["disable_title"] = $args["disable_title"] ?? false;
 	    $args["disable_thumbnail"] = $args["disable_thumbnail"] ?? false;
@@ -25,6 +24,9 @@ class entity_create {
 
         //Build the custom postypes
         if (!$args["skip_post_type_register"]) {
+
+            $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
+
             register_post_type( $slug,
                 array(
                     'labels' => array(
