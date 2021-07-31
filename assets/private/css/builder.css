@@ -8,8 +8,8 @@
 
 .WPCC_group .title{
     /*background: #0079b8;*/
-    color: #1e1e1e;
-    font-size: 2em;
+    color: #2271b1;
+    font-size: 1.3em;
     margin: 25px 0;
     font-weight: bold;
     /*padding: 8px 15px;*/
@@ -96,7 +96,7 @@
 
 .WPCC_group label {
     color: #1e1e1e;
-    font-size: 1.2em;
+    font-size: 1em;
     padding-bottom: 15px;
     font-weight: bold;
 }

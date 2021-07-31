@@ -258,12 +258,20 @@ const WPCC_builder = function() {
                         }
                     },
                     // Data 'Object' key to be searched
-                    keys: ["value"]
+                    keys: ["value", "key"]
                 },
                 resultItem: {
-                    highlight: {
-                        render: true
-                    }
+                    element: (item, data) => {
+                        item.style = "display: flex; justify-content: space-between;";
+                        // Modify Results Item Content
+                        item.innerHTML = `<span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                            ${data.value.value}
+                                          </span>
+                                          <span style="display: flex; align-items: center; font-size: 13px; font-weight: 100; text-transform: uppercase; color: rgba(0,0,0,.2);">
+                                            (${data.value.key})
+                                          </span>`;
+                    },
+                    highlight: true
                 },
                 resultsList: {
                     element: (list, data) => {
@@ -292,7 +300,7 @@ const WPCC_builder = function() {
                 startValue = 0;
                 const feedback = event.detail;
                 autoCompleteJS.input.blur();
-                autoCompleteJS.input.value = feedback.selection.value[feedback.selection.key];
+                autoCompleteJS.input.value = feedback.selection.value.value;
                 $(autoCompleteJS.input).parent().parent().find('.WPCC_field_autocomplete_value').val(feedback.selection.value.key);
             });
 
