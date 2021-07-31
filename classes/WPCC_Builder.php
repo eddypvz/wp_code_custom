@@ -138,6 +138,8 @@ class WPCC_Builder {
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
         $args["value"] = $args["value"] ?? "";
+        $args["priority"] = $args["priority"] ?? "default";
+        $args["context"] = $args["context"] ?? "normal";
 
         $entityMetabox = entity_get::instance()->fromMetabox($args["slug"], $args);
 
@@ -154,8 +156,8 @@ class WPCC_Builder {
                     }
                 },
                 $args["entity_parent"]->getSlug(),
-                'normal',
-                'high'
+                $args["context"],
+                $args["priority"]
             );
         });
 
