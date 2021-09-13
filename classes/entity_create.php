@@ -14,7 +14,7 @@ class entity_create {
 	    $args["public"] = $args["public"] ?? true;
 	    $args["label"] = $args["label"] ?? $label;
 	    $args["labelSingular"] = $args["labelSingular"] ?? $args["label"];
-	    $args["show_in_menu"] = $args["show_in_menu"] ?? true;
+	    $args["show_in_menu"] = isset($args["show_in_menu"]) ? $args["show_in_menu"] : true; // no funciona el ?? porque puede venir false y su default es true
 	    $args["menu_order"] = $args["menu_order"] ?? 5;
 	    $args["disable_editor"] = $args["disable_editor"] ?? false;
 	    $args["disable_title"] = $args["disable_title"] ?? false;
