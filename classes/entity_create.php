@@ -181,6 +181,7 @@ class entity_create {
         $args["label"] = $label;
         $args["icon"] = $args["icon"] ?? "dashicons-arrow-right-alt2";
         $args["menu_order"] = $args["menu_order"] ?? 5;
+        $args["enable_label_title"] = $args["enable_label_title"] ?? true;
         $args["enable_button_save"] = $args["enable_button_save"] ?? true;
         $args["capability"] = $args["capability"] ?? 'manage_options';
 
@@ -192,7 +193,13 @@ class entity_create {
                 wp_enqueue_media();
                 ?>
                 <div class="WPCC_Option_page">
-                    <h1 class="WPCC_Option_page_title"><?= $args["label"] ?></h1>
+                    <?php
+                        if ($args["enable_label_title"]) {
+                            ?>
+                            <h1 class="WPCC_Option_page_title"><?= $args["label"] ?></h1>
+                            <?php
+                        }
+                    ?>
                     <?php settings_errors(); ?>
                     <form method="post" action="options.php">
                         <input type="hidden" name="option_page" value="<?= $args["slug_for_register"] ?>">

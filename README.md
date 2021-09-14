@@ -29,6 +29,12 @@ git submodule update --init --recursive
 git submodule update --recursive --remote --force
 ```
 
+**For clear git cache:**
+
+```shell
+git rm -r --cached .
+```
+
 ## Activate plugin
 You can activate the plugin using the next methods:
 
