@@ -1,0 +1,75 @@
+.wpcc_supermodal {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.wpcc_supermodal .wpcc_supermodal_close_bar {
+    background: #9a9a9a;
+    width: 100%;
+    color: white;
+    text-align: right;
+    padding: 5px 0;
+}
+
+.wpcc_supermodal .wpcc_supermodal_close_bar i:before{
+    font-size: 3em;
+    margin-right: 1em;
+}
+
+.wpcc_supermodal .wpcc_supermodal_close_bar i{
+    line-height: 3em;
+    cursor: pointer;
+}
+
+.wpcc_supermodal .wpcc_supermodal_close_bar i:hover{
+    color: #e7e7e7;
+}
+
+.wpcc_supermodal .wpcc_supermodal_content {
+    position: relative;
+    text-align: center;
+    width: 90%;
+    height: 80%;
+    margin: 3em auto;
+}
+
+.wpcc_supermodal #wpcc_supermodal_iframe {
+    background: white;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border: none;
+}
+.wpcc_supermodal #loadingMessage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4em;
+    z-index: 111;
+}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.wpcc_loading {
+    display:    none;
+    position:   fixed;
+    z-index:    99999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('../img/loading.gif')
+    50% 50%
+    no-repeat;
+}

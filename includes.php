@@ -19,6 +19,7 @@ add_action( "admin_enqueue_scripts" , function() {
 require_once("utils/tools.php");
 
 // Load builder
+require_once("classes/WPCC_Response.php");
 require_once("classes/WPCC_Builder_Ajax.php");
 require_once("classes/WPCC_Builder.php");
 require_once("classes/WPCC_Save.php");
@@ -58,9 +59,11 @@ WPCC_load_scripts_folder($assets, "vendor", true);
 $assets = [
     "css" => [
         "builder.css",
+        "wpcc-modal-tools.css",
     ],
     "js" => [
         "builder.js",
+        "wpcc-modal-tools.js" => 'header',
     ],
 ];
 WPCC_load_scripts_folder($assets, "assets/private", true);

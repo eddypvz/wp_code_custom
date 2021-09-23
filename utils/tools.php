@@ -24,7 +24,21 @@ function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = fa
 
     add_action( $action , function() use ($files, $from_dir) {
         foreach ($files as $folder => $filesDetail) {
-            foreach ($filesDetail as $file){
+            foreach ($filesDetail as $indexArray => $value) {
+
+                $file = '';
+                $in_footer = true;
+
+                if (is_integer($indexArray)) {
+                    $file = $value;
+                }
+                else {
+                    if ($value === 'header') {
+                        $file = $indexArray;
+                        $in_footer = false;
+                    }
+                }
+
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 $name = "wpcc_{$folder}_{$file}";
 
@@ -32,7 +46,7 @@ function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = fa
                     wp_enqueue_style($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}?wpccv=".WPCC_VERSION);
                 }
                 else if($ext == "js"){
-                    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}?wpccv=".WPCC_VERSION, [], 1, true);
+                    wp_enqueue_script($name, WP_CODE_CUSTOM_DIR."{$from_dir}/{$folder}/{$file}?wpccv=".WPCC_VERSION, [], 1, $in_footer);
                 }
             }
         }
@@ -168,3 +182,17 @@ function WPCC_Filetype($fileName = "") {
 
     return $fileType;
 }
+
+
+// add modal tools
+add_action('admin_footer', function () {
+    echo '<div class="wpcc_supermodal">
+            <div class="wpcc_supermodal_content">
+                <div class="wpcc_supermodal_close_bar">
+                    <i id="supermodal_close_btn" class="dashicons-before dashicons-no"></i>
+                </div>
+                <div id="loadingMessage">Cargando...</div>
+            </div>
+          </div>
+          <div id="wpcc_loading" class="wpcc_loading"></div>';
+});

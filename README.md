@@ -275,6 +275,16 @@ There is an examples for use
     });
 
 ```
+## Herramientas JS
+The `WPCC_Builder` class provide tools for develop in Wordpress admin dashboard.
+
+### Class `WPCC_modal_tools`
+
+
+
+
+## Examples
+There is an examples for use
 
 
 ## License

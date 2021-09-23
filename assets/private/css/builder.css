@@ -347,8 +347,8 @@
 .WPCC_Option_page {
     /*max-width: 1000px;*/
     background: white;
-    margin-top: 10px;
     padding: 10px 20px;
+    margin: 20px;
 }
 
 .WPCC_Option_page .buttonSave{
@@ -357,6 +357,9 @@
 
 .WPCC_Option_page_title {
     font-size: 1.7em;
+    border-bottom: solid 1px #f0f0f0;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
 }
 
 /*Picker override*/
