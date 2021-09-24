@@ -2,7 +2,7 @@
     width: 100%;
     height: 100vh;
     position: fixed;
-    z-index: 99999;
+    z-index: 99999999999!important;
     background: rgba(0, 0, 0, 0.8);
     top: 0;
     left: 0;
@@ -63,7 +63,7 @@
 .wpcc_loading {
     display:    none;
     position:   fixed;
-    z-index:    99999;
+    z-index: 99999999999!important;
     top:        0;
     left:       0;
     height:     100%;
