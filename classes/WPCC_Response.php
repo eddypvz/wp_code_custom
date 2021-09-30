@@ -17,7 +17,7 @@ function WPCC_ResponseStructure($status, $msg, $array = [], $errorCode = '', $ht
     return $arrReturn;
 }
 
-function WPCC_ResponseSuccess($msg, $array = [], $httpCode = 200, $printJson = false) {
+function WPCC_ResponseSuccess($msg, $array = [], $printJson = false, $httpCode = 200) {
     if ($printJson) {
         header("Content-Type: text/json");
         print json_encode(WPCC_ResponseStructure(true, $msg, $array));
@@ -28,7 +28,7 @@ function WPCC_ResponseSuccess($msg, $array = [], $httpCode = 200, $printJson = f
     }
 }
 
-function WPCC_ResponseError($errorCode, $msg, $array = [], $httpCode = 200, $printJson = false) {
+function WPCC_ResponseError($errorCode, $msg, $array = [], $printJson = false, $httpCode = 200) {
     if ($printJson) {
         header("Content-Type: text/json");
         print json_encode(WPCC_ResponseStructure(false, $msg, $array, $errorCode, $httpCode));
