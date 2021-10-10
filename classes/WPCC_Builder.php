@@ -715,13 +715,8 @@ class WPCC_Builder {
             $newSlug = $args["slug"]."_".uniqid();
             // Value and repeater
 
-            // if is not repeatable, find by name
-            if (!$groupArgs["repeatable"]) {
-                $args["value"] = $groupArgs["card_values"][$args["slug"]] ?? wpautop($groupArgs["card_values"][$args["slug"]]) ?? "";
-            }
-            else {
-                $args["value"] = $groupArgs["card_values"][$args["name"]] ?? wpautop($groupArgs["card_values"][$args["name"]]) ?? "";
-            }
+            // find by name
+            $args["value"] = $groupArgs["card_values"][$args["name"]] ?? wpautop($groupArgs["card_values"][$args["name"]]) ?? "";
 
             // Set repeater
             $repeater = $groupArgs["repeat_number"] ?? 0;
