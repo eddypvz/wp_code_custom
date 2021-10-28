@@ -51,9 +51,6 @@ function WPCC_load_scripts_folder($files = [], $from_dir = "", $boolIsAdmin = fa
             }
         }
     });
-
-
-
 }
 
 function WPCC_load_public_script($name) {

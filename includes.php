@@ -67,3 +67,8 @@ $assets = [
     ],
 ];
 WPCC_load_scripts_folder($assets, "assets/private", true);
+
+// Custom scripts imported in head
+add_action( 'admin_head', function () {
+    print '<script type="text/javascript" src="'.WP_CODE_CUSTOM_DIR.'/vendor/sweetalert/sweetalert2.js"></script>';
+});

@@ -706,6 +706,7 @@ class WPCC_Builder {
         $args["height"] = $args["height"] ?? 30;
         $args["show_in_grid"] = $args["show_in_grid"] ?? false;
         $args["description"] = $args["description"] ?? "";
+        $args["value"] = "";
 
         // Save definition
         $entity->SetChildren($args);
@@ -716,7 +717,9 @@ class WPCC_Builder {
             // Value and repeater
 
             // find by name
-            $args["value"] = $groupArgs["card_values"][$args["name"]] ?? wpautop($groupArgs["card_values"][$args["name"]]) ?? "";
+            if (!empty($groupArgs["card_values"][$args["name"]])) {
+                $args["value"] = wpautop($groupArgs["card_values"][$args["name"]]);
+            }
 
             // Set repeater
             $repeater = $groupArgs["repeat_number"] ?? 0;

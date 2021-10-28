@@ -73,3 +73,7 @@
     50% 50%
     no-repeat;
 }
+
+.swal2-container {
+    z-index: 99999999999!important;
+}
