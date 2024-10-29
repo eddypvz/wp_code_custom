@@ -5,7 +5,7 @@ use wp_code_custom\entity_get;
 
 class WPCC_Builder {
 
-    public static function Add_Taxonomy($slug, $label, $items = [], Entity $entity, $editable = true) {
+    public static function Add_Taxonomy($slug, $label, $items, Entity $entity, $editable = true) {
 
         // Set the args for entity
         $args["slug"] = $slug;
